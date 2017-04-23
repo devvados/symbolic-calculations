@@ -1,30 +1,27 @@
 ﻿using Symbolic.Model.Base;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Symbolic.Model.Template
 {
     public class Exponenta : Function
     {
-        private double a;
-        private Function innerF;
+        private readonly double _a;
+        private readonly Function _innerF;
+
         public Exponenta(double a = Math.E)
         {
-            this.a = a;
+            _a = a;
         }
 
         public Exponenta(Function f, double a = Math.E)
         {
-            this.a = a;
-            innerF = f;
+            _a = a;
+            _innerF = f;
         }
 
         public override double Calc(double val)
         {
-            return Math.Pow(a, val);
+            return Math.Pow(_a, val);
         }
 
         /// <summary>
@@ -33,21 +30,19 @@ namespace Symbolic.Model.Template
         /// <returns></returns>
         public override Function Derivative()
         {
-            if (innerF != null)
-                return new Exponenta(innerF) * innerF.Derivative();
+            if (_innerF != null)
+                return new Exponenta(_innerF) * _innerF.Derivative();
             else
                 return this; //new Constant(Math.Log(a, Math.E)) * this
         }
 
         public override string ToString()
         {
-            if (innerF != null)
-                return $"e^({innerF.ToString()})";
+            if (_innerF != null)
+                return $"e^({_innerF})";
             else
             {
-                if (Math.Abs(a - Math.E) <= 10e-6)
-                    return "e^x";
-                return $"{a}^x";
+                return Math.Abs(_a - Math.E) <= 10e-6 ? "e^x" : $"{_a}^x";
             }
         }
     }

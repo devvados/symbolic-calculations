@@ -1,15 +1,11 @@
 ﻿using Symbolic.Model.Base;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Symbolic.Model.Template
 {
     public class Cosinus : Function
     {
-        public Function innerF;
+        private readonly Function _innerF;
 
         public Cosinus()
         {
@@ -17,7 +13,7 @@ namespace Symbolic.Model.Template
         }
         public Cosinus(Function f)
         {
-            innerF = f;
+            _innerF = f;
         }
         public override double Calc(double val)
         {
@@ -30,12 +26,12 @@ namespace Symbolic.Model.Template
         /// <returns></returns>
         public override Function Derivative()
         {
-            return (innerF != null) ? -1 * Funcs.Sin(innerF) * innerF.Derivative() : -1 * Funcs.Sin();
+            return (_innerF != null) ? -1 * Funcs.Sin(_innerF) * _innerF.Derivative() : -1 * Funcs.Sin();
         }
 
         public override string ToString()
         {
-            return (innerF != null) ? $"cos({innerF.ToString()})" : "cos(x)";
+            return (_innerF != null) ? $"cos({_innerF})" : "cos(x)";
         }
     }
 }

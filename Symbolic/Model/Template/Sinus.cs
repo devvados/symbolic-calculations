@@ -1,15 +1,11 @@
 ﻿using Symbolic.Model.Base;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Symbolic.Model.Template
 {
     public class Sinus : Function
     {
-        public Function innerF;
+        private readonly Function _innerF;
 
         public Sinus()
         {
@@ -18,7 +14,7 @@ namespace Symbolic.Model.Template
 
         public Sinus(Function f)
         {
-            innerF = f;
+            _innerF = f;
         }
 
         public override double Calc(double val)
@@ -32,18 +28,15 @@ namespace Symbolic.Model.Template
         /// <returns></returns>
         public override Function Derivative()
         {
-            if (innerF != null)
-                return Funcs.Cos(innerF) * innerF.Derivative();
+            if (_innerF != null)
+                return Funcs.Cos(_innerF) * _innerF.Derivative();
             else
                 return Funcs.Cos();
         }
 
         public override string ToString()
         {
-            if (innerF != null)
-                return $"sin({innerF.ToString()})";
-            else
-                return "sin(x)";
+            return _innerF != null ? $"sin({_innerF})" : "sin(x)";
         }
     }
 }

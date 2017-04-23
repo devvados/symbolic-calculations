@@ -1,9 +1,5 @@
 ﻿using Symbolic.Model.Base;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Symbolic.Model.Template
 {
@@ -184,9 +180,10 @@ namespace Symbolic.Model.Template
         {
             if (Math.Sign(delta) != Math.Sign(b - a))
                 delta *= -1;
+
             double sum = 0;
-            int i = 0;
-            for (double x = a; x < b; x += delta)
+            
+            for (var x = a; x < b; x += delta)
             {
                 if (x + delta > b)
                 {
@@ -194,7 +191,6 @@ namespace Symbolic.Model.Template
                     break;
                 }
                 sum += delta * f.Calc(x);
-                ++i;
             }
             return sum;
         }
@@ -215,32 +211,23 @@ namespace Symbolic.Model.Template
         {
             if (Math.Sign(delta) != Math.Sign(b - a))
                 delta *= -1;
-            int n = (int)((b - a) / delta);
-            double h = (b - a) / n;
+            var n = (int)((b - a) / delta);
+            var h = (b - a) / n;
             double sum = 0;
             sum = f.Calc(a);
-            for (int i = 1; i <= n; i += 2)
+
+            for (var i = 1; i <= n; i += 2)
             {
-                double x = a + h * i;
+                var x = a + h * i;
                 sum += 4 * f.Calc(x);
             }
-            for (int i = 2; i <= n - 1; i += 2)
+            for (var i = 2; i <= n - 1; i += 2)
             {
-                double x = a + h * i;
+                var x = a + h * i;
                 sum += 2 * f.Calc(x);
             }
             sum += f.Calc(b);
-            /*int i = 0;
-            for (double x = a; x < b; x += delta)
-            {
-                if (x + delta > b)
-                {
-                    delta = b - a;
-                }
-                sum += delta * (f.Calc(x) + 4 * f.Calc((2 * x + delta) / 2) + f.Calc(x + delta));
-                ++i;
-            }
-            sum /= 6;*/
+     
             return h * sum / 3;
         }
 

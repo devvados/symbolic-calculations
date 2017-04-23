@@ -12,12 +12,12 @@ namespace Symbolic.Model.Polynomial
         /// <summary>
         /// Числитель и знаменатель
         /// </summary>
-        public Polynom numerator, denominator;
+        public Polynom Numerator, Denominator;
 
         public RationalFunction(Polynom num, Polynom denom)
         {
-            numerator = num;
-            denominator = denom;
+            Numerator = num;
+            Denominator = denom;
         }
 
         #region Наследование от класса Function
@@ -72,14 +72,14 @@ namespace Symbolic.Model.Polynomial
         {
             divisionResult = new List<Monom>();
 
-            if (numerator.LT.CompareTo(denominator.LT) >= 0) //сравниваем степени числителя и знаменателя
+            if (Numerator.LT.CompareTo(Denominator.LT) >= 0) //сравниваем степени числителя и знаменателя
             {
-                var reminder = new Polynom();
-                Polynom.DividePolynoms(numerator, denominator, out divisionResult, out reminder);
-                return new RationalFunction(reminder, denominator);
+                Polynom reminder;
+                Polynom.DividePolynoms(Numerator, Denominator, out divisionResult, out reminder);
+                return new RationalFunction(reminder, Denominator);
             }
             else
-                return new RationalFunction(numerator, denominator); 
+                return new RationalFunction(Numerator, Denominator); 
         }
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace Symbolic.Model.Polynomial
         /// <returns></returns>
         public override string ToString()
         {
-            return $"{numerator.ToString()}/{denominator.ToString()}";
+            return $"{Numerator}/{Denominator}";
         }
     }
 }

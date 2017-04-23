@@ -8,8 +8,8 @@ namespace Symbolic.Model.Base
 {
     public abstract class Operator : Function
     {
-        protected readonly Function leftFunc;
-        protected readonly Function rightFunc;
+        protected readonly Function LeftFunc;
+        protected readonly Function RightFunc;
 
         //protected Operator(Function a)
         //{
@@ -17,8 +17,8 @@ namespace Symbolic.Model.Base
         //}
         protected Operator(Function a, Function b)
         {
-            leftFunc = a;
-            rightFunc = b;
+            LeftFunc = a;
+            RightFunc = b;
         }
     }
 }

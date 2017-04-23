@@ -1,9 +1,5 @@
-﻿using Symbolic.Model.Operation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
+using Symbolic.Model.Operation;
 
 namespace Symbolic.Model.Base
 {
@@ -54,7 +50,7 @@ namespace Symbolic.Model.Base
                 if (n < 0)
                     throw new ArgumentException("n must be more than zero");
                 var f = this;
-                for (int i = 0; i < n; ++i)
+                for (var i = 0; i < n; ++i)
                     f = f.Derivative();
                 return f;
             }

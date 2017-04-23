@@ -1,22 +1,19 @@
 ﻿using Symbolic.Model.Template;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Symbolic.Model.Base
 {
     public class Constant : Function
     {
+        private readonly double _value;
+
         public Constant(double val)
         {
-            value = val;
+            _value = val;
         }
 
         public override double Calc(double val)
         {
-            return value;
+            return _value;
         }
 
         public override Function Derivative()
@@ -26,9 +23,7 @@ namespace Symbolic.Model.Base
 
         public override string ToString()
         {
-            return value.ToString();
+            return _value.ToString();
         }
-
-        private readonly double value;
     }
 }

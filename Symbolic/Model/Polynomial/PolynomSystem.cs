@@ -8,18 +8,18 @@ namespace Symbolic.Model.Polynomial
 {
     class PolynomSystem
     {
-        public List<Polynom> system;
+        public List<Polynom> System;
 
         #region Конструкторы
 
         public PolynomSystem()
         {
-            system = new List<Polynom>();
+            System = new List<Polynom>();
         }
 
         public PolynomSystem(List<Polynom> polylist)
         {
-            system = new List<Polynom>(polylist);
+            System = new List<Polynom>(polylist);
         }
 
         #endregion
@@ -28,14 +28,8 @@ namespace Symbolic.Model.Polynomial
 
         public Polynom this[int index]
         {
-            get
-            {
-                return system[index];
-            }
-            set
-            {
-                system[index] = value;
-            }
+            get => System[index];
+            set => System[index] = value;
         }
 
         #endregion
@@ -44,7 +38,7 @@ namespace Symbolic.Model.Polynomial
         {
             //LOGIC
 
-            return new PolynomSystem(system);
+            return new PolynomSystem(System);
         }
     }
 }

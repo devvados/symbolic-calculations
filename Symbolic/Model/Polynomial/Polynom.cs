@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Symbolic.Model.Polynomial
 {
@@ -12,89 +11,40 @@ namespace Symbolic.Model.Polynomial
         /// <summary>
         /// Список мономов
         /// </summary>
-        public List<Monom> monoms;
+        public List<Monom> Monoms;
 
         #region Свойства
 
-        public Monom LT
-        {
-            get
-            {
-                if (monoms.Count < 1)
-                {
-                    return null;
-                }
-                else
-                {
-                    return monoms.First();
-                }
-            }
-        }
+        public Monom LT => Monoms.Count < 1 ? null : Monoms.First();
 
-        public Monom LM
-        {
-            get
-            {
-                return new Monom(1, LT.Powers);
-            }
-        }
+        public Monom LM => new Monom(1, LT.Powers);
 
-        public double LC
-        {
-            get
-            {
-                return LT.Coef;
-            }
-        }
+        public double LC => LT.Coef;
 
-        public bool IsNull
-        {
-            get
-            {
-                if (Degree == 0)
-                    return true;
-                else
-                    return false;
-            }
-        }
+        public bool IsNull => Degree == 0;
 
         public int Degree
         {
             get
             {
-                int max = 0;
-                for (int i = 0; i < monoms.Count; i++)
+                var max = 0;
+                foreach (var t in Monoms)
                 {
-                    int sum = 0;
-                    foreach (int j in monoms[i].Powers)
-                        sum += j;
+                    var sum = t.Powers.Sum();
 
                     if (sum > max)
                         max = sum;
                 }
-
                 return max;
             }
         }
 
-        public List<int> Multideg
-        {
-            get
-            {
-                return LT.Powers;
-            }
-        }
+        public List<int> Multideg => LT.Powers;
 
         public Monom this[int index]
         {
-            get
-            {
-                return monoms[index];
-            }
-            set
-            {
-                monoms[index] = value;
-            }
+            get => Monoms[index];
+            set => Monoms[index] = value;
         }
 
         #endregion
@@ -103,12 +53,12 @@ namespace Symbolic.Model.Polynomial
 
         public Polynom()
         {
-            monoms = new List<Monom>();
+            Monoms = new List<Monom>();
         }
 
         public Polynom(List<Monom> ms)
         {
-            monoms = new List<Monom>(ms);
+            Monoms = new List<Monom>(ms);
         }
 
         #endregion
@@ -135,7 +85,7 @@ namespace Symbolic.Model.Polynomial
         {
             return new Polynom
             {
-                monoms = new List<Monom>(this.monoms)
+                Monoms = new List<Monom>(Monoms)
             };
         }
 
@@ -145,32 +95,32 @@ namespace Symbolic.Model.Polynomial
         /// <returns> Упрощенный полином </returns>
         public Polynom SimplifyPolynom()
         {
-            List<int> nullCoefs = new List<int>();
+            var nullCoefs = new List<int>();
 
-            for (int i = 0; i < monoms.Count; i++)
+            for (var i = 0; i < Monoms.Count; i++)
             {
                 //найдем нулевые коэффициенты
-                if (monoms[i].Coef == 0)
+                if (Monoms[i].Coef == 0)
                 {
-                    monoms.RemoveAt(i);
+                    Monoms.RemoveAt(i);
                     //nullCoefs.Add(i);
                     i--;
                 }
             }
 
-            for (int i = 0; i < monoms.Count; i++)
+            for (var i = 0; i < Monoms.Count; i++)
             {
-                for (int j = i + 1; j < monoms.Count; j++)
+                for (var j = i + 1; j < Monoms.Count; j++)
                 {
-                    if (Monom.AreEqual(monoms[i], monoms[j]))
+                    if (Monom.AreEqual(Monoms[i], Monoms[j]))
                     {
-                        monoms[i] = monoms[i] + monoms[j];
-                        monoms.RemoveAt(j);
+                        Monoms[i] = Monoms[i] + Monoms[j];
+                        Monoms.RemoveAt(j);
                     }
                 }
             }
 
-            return new Polynom(monoms);
+            return new Polynom(Monoms);
         }
 
         /// <summary>
@@ -179,18 +129,18 @@ namespace Symbolic.Model.Polynomial
         /// <returns> Полином-строка </returns>
         public override string ToString()
         {
-            StringBuilder stringPoly = new StringBuilder();
+            var stringPoly = new StringBuilder();
 
-            if (monoms.Count > 0)
+            if (Monoms.Count > 0)
             {
-                for (int i = 0; i < monoms.Count; i++)
+                for (var i = 0; i < Monoms.Count; i++)
                 {
-                    stringPoly.Append(monoms[i].ToString());
-                    if ((i + 1) < monoms.Count)
+                    stringPoly.Append(Monoms[i]);
+                    if ((i + 1) < Monoms.Count)
                     {
                         stringPoly.Append(" + ");
                     }
-                    else if ((i + 1) == monoms.Count)
+                    else if ((i + 1) == Monoms.Count)
                     {
                         break;
                     }
@@ -212,17 +162,17 @@ namespace Symbolic.Model.Polynomial
         {
             int variable = varnum - 1;
 
-            if (variable > monoms.Count)
+            if (variable > Monoms.Count)
             {
-                monoms.Clear();
+                Monoms.Clear();
             }
             else
             {
-                foreach (Monom m in monoms)
+                foreach (Monom m in Monoms)
                 {
                     if (m.Powers[variable] == 0)
                     {
-                        monoms.RemoveAt(variable);
+                        Monoms.RemoveAt(variable);
                     }
                     else
                     {
@@ -233,7 +183,7 @@ namespace Symbolic.Model.Polynomial
 
             }
 
-            return new Polynom(monoms);
+            return new Polynom(Monoms);
         }
 
         /// <summary>
@@ -254,15 +204,15 @@ namespace Symbolic.Model.Polynomial
         /// <returns> НОД - полином </returns>
         public static Polynom GetGCD(Polynom f, Polynom g)
         {
-            Polynom h = f.Degree > g.Degree ? (Polynom)f.Clone() : (Polynom)g.Clone();
-            Polynom s = f.Degree < g.Degree ? (Polynom)f.Clone() : (Polynom)g.Clone();
+            var h = f.Degree > g.Degree ? (Polynom)f.Clone() : (Polynom)g.Clone();
+            var s = f.Degree < g.Degree ? (Polynom)f.Clone() : (Polynom)g.Clone();
 
             while (!s.IsNull)
             {
                 if (h.Degree >= s.Degree)
                 {
-                    Polynom rem = new Polynom();
-                    List<Monom> q = new List<Monom>();
+                    Polynom rem;
+                    List<Monom> q;
                     DividePolynoms(h, s, out q, out rem);
                     h = s;
                     s = rem;
@@ -281,10 +231,10 @@ namespace Symbolic.Model.Polynomial
         /// <returns></returns>
         public static Polynom GetGCD(params Polynom[] polynoms)
         {
-            Polynom h = new Polynom();
-            List<Polynom> sortedByDescending = polynoms.OrderBy(p => p.Degree).ToList();
+            var h = new Polynom();
+            var sortedByDescending = polynoms.OrderBy(p => p.Degree).ToList();
 
-            for (int i = sortedByDescending.Count - 2; i >= 0; i--)
+            for (var i = sortedByDescending.Count - 2; i >= 0; i--)
             {
                 sortedByDescending[i] = GetGCD(sortedByDescending[i], sortedByDescending[i + 1]);
                 sortedByDescending.RemoveAt(i + 1);
@@ -309,7 +259,7 @@ namespace Symbolic.Model.Polynomial
             {
                 if (!r.IsNull && Monom.CanDivide(r.LT, g.LT))
                 {
-                    Monom divLT = r.LT / g.LT;
+                    var divLT = r.LT / g.LT;
                     q.Add(divLT);
                     var temp = g * (divLT);
                     r = r - temp;
@@ -339,15 +289,15 @@ namespace Symbolic.Model.Polynomial
         public static Polynom operator +(Polynom a, Polynom b)
         {
             Polynom res = new Polynom();
-            res.monoms.AddRange(a.monoms);
-            res.monoms.AddRange(b.monoms);
+            res.Monoms.AddRange(a.Monoms);
+            res.Monoms.AddRange(b.Monoms);
             res.SimplifyPolynom();
             return res;
         }
         public static Polynom operator -(Polynom p)
         {
             Polynom res = (Polynom)p.Clone();
-            foreach (Monom t in res.monoms)
+            foreach (Monom t in res.Monoms)
             {
                 t.Coef *= -1;
             }
@@ -356,17 +306,17 @@ namespace Symbolic.Model.Polynomial
         public static Polynom operator -(Polynom a, Polynom b)
         {
             Polynom res = new Polynom();
-            res.monoms.AddRange(a.monoms);
-            res.monoms.AddRange((-b).monoms);
+            res.Monoms.AddRange(a.Monoms);
+            res.Monoms.AddRange((-b).Monoms);
             res.SimplifyPolynom();
             return res;
         }
         public static Polynom operator *(Polynom p, Monom m)
         {
             Polynom tempPoly = (Polynom)p.Clone();
-            for (int i = 0; i < tempPoly.monoms.Count; i++)
+            for (int i = 0; i < tempPoly.Monoms.Count; i++)
             {
-                tempPoly.monoms[i] *= m;
+                tempPoly.Monoms[i] *= m;
             }
             return tempPoly;
         }

@@ -1,10 +1,6 @@
-﻿using Symbolic.Model.Base;
+﻿using System;
+using Symbolic.Model.Base;
 using Symbolic.Model.Template;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Symbolic.Model.Operation
 {
@@ -33,7 +29,7 @@ namespace Symbolic.Model.Operation
 
         public override double Calc(double val)
         {
-            return leftFunc.Calc(rightFunc.Calc(val));
+            return LeftFunc.Calc(RightFunc.Calc(val));
         }
 
         /// <summary>
@@ -42,12 +38,12 @@ namespace Symbolic.Model.Operation
         /// <returns></returns>
         public override Function Derivative()
         {
-            return (leftFunc[1] % rightFunc) * rightFunc[1];
+            return (LeftFunc[1] % RightFunc) * RightFunc[1];
         }
 
         public override string ToString()
         {
-            return "(" + leftFunc + " ◦ " + rightFunc + ")";
+            return "(" + LeftFunc + " ◦ " + RightFunc + ")";
         }
     }
 }

@@ -1,9 +1,5 @@
 ﻿using Symbolic.Model.Base;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Symbolic.Model.Template
 {
@@ -12,22 +8,22 @@ namespace Symbolic.Model.Template
     /// </summary>
     public class Logarithm : Function
     {
-        private double a;
-        private Function innerF;
+        private readonly double _a;
+        private readonly Function _innerF;
         public Logarithm(double a = Math.E)
         {
-            this.a = a;
+            _a = a;
         }
 
         public Logarithm(Function f, double a = Math.E)
         {
-            this.a = a;
-            innerF = f;
+            _a = a;
+            _innerF = f;
         }
 
         public override double Calc(double val)
         {
-            return Math.Log(val, a);
+            return Math.Log(val, _a);
         }
 
         /// <summary>
@@ -36,23 +32,23 @@ namespace Symbolic.Model.Template
         /// <returns></returns>
         public override Function Derivative()
         {
-            if (innerF != null)
+            if (_innerF != null)
             {
-                if (Math.Abs(a - Math.E) <= 10e-6)
-                    return 1 / (innerF) * innerF.Derivative();
+                if (Math.Abs(_a - Math.E) <= 10e-6)
+                    return 1 / (_innerF) * _innerF.Derivative();
                 else
-                    return 1 / (Funcs.Id * /*Funcs.Ln(new Constant(a))*/ Math.Log(a, Math.E)) * innerF.Derivative();
+                    return 1 / (Funcs.Id * /*Funcs.Ln(new Constant(a))*/ Math.Log(_a, Math.E)) * _innerF.Derivative();
             }
             else
-                return 1 / (Funcs.Id * /*Funcs.Ln(new Constant(a)*/ Math.Log(a, Math.E));
+                return 1 / (Funcs.Id * /*Funcs.Ln(new Constant(a)*/ Math.Log(_a, Math.E));
         }
 
         public override string ToString()
         {
-            if (Math.Abs(a - Math.E) <= 10e-6)
-                return (innerF != null) ? $"ln({innerF.ToString()})" : "ln(x)";
+            if (Math.Abs(_a - Math.E) <= 10e-6)
+                return (_innerF != null) ? $"ln({_innerF})" : "ln(x)";
             else
-                return (innerF != null) ? $"log[{a}]({innerF.ToString()})" : "log[" + a + "](x)"; ;
+                return (_innerF != null) ? $"log[{_a}]({_innerF})" : "log[" + _a + "](x)"; ;
         }
     }
 }

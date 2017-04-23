@@ -15,12 +15,12 @@ namespace Symbolic.Model.Polynomial
         /// <returns> Готовый полином </returns>
         public static Polynom CreateOrderedPolynom(Polynom poly)
         {
-            Polynom tempPolynom = poly, orderedPolynom;
+            var tempPolynom = poly;
 
-            Dictionary<Monom, int> monomRepeats = tempPolynom.monoms.ToDictionary(m => m, m => 1);
-            foreach (Monom t in tempPolynom.monoms)
+            var monomRepeats = tempPolynom.Monoms.ToDictionary(m => m, m => 1);
+            foreach (var t in tempPolynom.Monoms)
             {
-                foreach (Monom t1 in tempPolynom.monoms)
+                foreach (var t1 in tempPolynom.Monoms)
                 {
                     if (t.CompareTo(t1) > 0)
                         monomRepeats[t]++;
@@ -29,7 +29,7 @@ namespace Symbolic.Model.Polynomial
             monomRepeats = monomRepeats.OrderByDescending(pair => pair.Value).ToDictionary(pair => pair.Key, pair => pair.Value);
 
             //Составим упорядоченный полином
-            orderedPolynom = new Polynom(monomRepeats.Keys.ToList());
+            var orderedPolynom = new Polynom(monomRepeats.Keys.ToList());
 
             return orderedPolynom.SimplifyPolynom();
         }

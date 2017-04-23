@@ -44,14 +44,14 @@ namespace Symbolic
 
             var rationalFunction = new RationalFunction(numerator, denominator);
 
-            TBNumerator.Text = numerator.SimplifyPolynom().ToString();
-            TBDenominator.Text = denominator.SimplifyPolynom().ToString();
+            TbNumerator.Text = numerator.SimplifyPolynom().ToString();
+            TbDenominator.Text = denominator.SimplifyPolynom().ToString();
 
             var division = new List<Monom>();
             var simplifiedRationalFunction = rationalFunction.Simplify(out division);
 
-            TBIntegralNumerator.Text = (simplifiedRationalFunction as RationalFunction).numerator.SimplifyPolynom().ToString();
-            TBIntegralDenominator.Text = (simplifiedRationalFunction as RationalFunction).denominator.SimplifyPolynom().ToString();
+            TbIntegralNumerator.Text = (simplifiedRationalFunction as RationalFunction)?.Numerator.SimplifyPolynom().ToString();
+            TbIntegralDenominator.Text = (simplifiedRationalFunction as RationalFunction)?.Denominator.SimplifyPolynom().ToString();
         }
 
         /// <summary>
@@ -60,8 +60,8 @@ namespace Symbolic
         public void TestDifferentialCalculus()
         {
             var f = 2 * Funcs.Exp(Funcs.Ln());
-            TBFirst.Text = String.Format("f = {0}", f);
-            TBSecond.Text = String.Format("f' = {0}", f.Derivative());
+            TbFirst.Text = $"f = {f}";
+            TbSecond.Text = $"f' = {f.Derivative()}";
         }
     }
 }

@@ -13,9 +13,9 @@
         <TabItem Header="Производные">
             <StackPanel>
                 <Label Content="Исходная функция" Margin="10, 20, 10, 10" FontSize="18"/>
-                <TextBox x:Name="TBFirst" Focusable="False"  Margin="10, 5, 10, 20" FontSize="18" FontFamily="Consolas" Height="40" VerticalContentAlignment="Center"/>
+                <TextBox x:Name="TbFirst" Focusable="False"  Margin="10, 5, 10, 20" FontSize="18" FontFamily="Consolas" Height="40" VerticalContentAlignment="Center"/>
                 <Label Content="Производная функции" Margin="10, 20, 10, 10" FontSize="18"/>
-                <TextBox x:Name="TBSecond" Focusable="False" Margin="10, 5, 10, 20" FontSize="18" FontFamily="Consolas" Height="40" VerticalContentAlignment="Center"/>
+                <TextBox x:Name="TbSecond" Focusable="False" Margin="10, 5, 10, 20" FontSize="18" FontFamily="Consolas" Height="40" VerticalContentAlignment="Center"/>
             </StackPanel>
         </TabItem>
         <TabItem Header="Интегрирование">
@@ -32,8 +32,8 @@
                             <RowDefinition Height="1*"/>
                             <RowDefinition Height="1*"/>
                         </Grid.RowDefinitions>
-                        <TextBox x:Name="TBNumerator" Focusable="False" Grid.Row="0" FontFamily="Consolas" FontSize="18" Height="30" VerticalContentAlignment="Center"/>
-                        <TextBox x:Name="TBDenominator" Focusable="False" Grid.Row="1" FontFamily="Consolas" FontSize="18" Height="30" VerticalContentAlignment="Center"/>
+                        <TextBox x:Name="TbNumerator" Focusable="False" Grid.Row="0" FontFamily="Consolas" FontSize="18" Height="30" VerticalContentAlignment="Center"/>
+                        <TextBox x:Name="TbDenominator" Focusable="False" Grid.Row="1" FontFamily="Consolas" FontSize="18" Height="30" VerticalContentAlignment="Center"/>
                     </Grid>
                 </Grid>
                 <Label Content="Интеграл функции" Margin="20, 15, 10, 10" FontSize="18" HorizontalAlignment="Left"/>
@@ -48,8 +48,8 @@
                             <RowDefinition Height="1*"/>
                             <RowDefinition Height="1*"/>
                         </Grid.RowDefinitions>
-                        <TextBox x:Name="TBIntegralNumerator" Focusable="False" Grid.Row="0" FontFamily="Consolas" FontSize="18" Height="30" VerticalContentAlignment="Center"/>
-                        <TextBox x:Name="TBIntegralDenominator" Focusable="False" Grid.Row="1" FontFamily="Consolas" FontSize="18" Height="30" VerticalContentAlignment="Center"/>
+                        <TextBox x:Name="TbIntegralNumerator" Focusable="False" Grid.Row="0" FontFamily="Consolas" FontSize="18" Height="30" VerticalContentAlignment="Center"/>
+                        <TextBox x:Name="TbIntegralDenominator" Focusable="False" Grid.Row="1" FontFamily="Consolas" FontSize="18" Height="30" VerticalContentAlignment="Center"/>
                     </Grid>
                 </Grid>
             </StackPanel>

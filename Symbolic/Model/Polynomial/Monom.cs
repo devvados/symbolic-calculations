@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Symbolic.Model.Polynomial
 {
@@ -21,14 +19,8 @@ namespace Symbolic.Model.Polynomial
 
         public double Coef
         {
-            get
-            {
-                return _coef;
-            }
-            set
-            {
-                _coef = value;
-            }
+            get => _coef;
+            set => _coef = value;
         }
 
         #endregion
@@ -101,7 +93,7 @@ namespace Symbolic.Model.Polynomial
             if (Powers.Count == b.Powers.Count)
             {
                 tempMonom = this;
-                for (int i = 0; i < tempMonom.Powers.Count; i++)
+                for (var i = 0; i < tempMonom.Powers.Count; i++)
                 {
                     if (Powers[i] > b.Powers[i])
                     {
@@ -138,12 +130,9 @@ namespace Symbolic.Model.Polynomial
                 a.CompleteMonom(a);
             if (a.Powers.Count == b.Powers.Count)
             {
-                for (int i = 0; i < a.Powers.Count; i++)
+                for (var i = 0; i < a.Powers.Count; i++)
                 {
-                    if (a.Powers[i] > b.Powers[i])
-                        lcm.Powers.Add(a.Powers[i]);
-                    else
-                        lcm.Powers.Add(b.Powers[i]);
+                    lcm.Powers.Add(a.Powers[i] > b.Powers[i] ? a.Powers[i] : b.Powers[i]);
                 }
             }
             return lcm;
@@ -178,7 +167,7 @@ namespace Symbolic.Model.Polynomial
         /// <returns> да/нет </returns>
         public static bool CanDivide(Monom a, Monom b)
         {
-            bool canDivide = true;
+            var canDivide = true;
 
             if (b._coef == 0)
                 canDivide = false;
@@ -258,20 +247,19 @@ namespace Symbolic.Model.Polynomial
 
         public static Monom operator -(Monom m)
         {
-            Monom tempMonom = m;
+            var tempMonom = m;
             tempMonom._coef *= -1;
             return tempMonom;
         }
 
         public static Monom operator *(Monom a, Monom b)
         {
-            var multMonom = new Monom();
-            multMonom._coef = a._coef * b._coef;
+            var multMonom = new Monom {_coef = a._coef * b._coef};
 
             if (a.Powers.Count > b.Powers.Count) b.CompleteMonom(a);
             else if (a.Powers.Count < b.Powers.Count) a.CompleteMonom(b);
 
-            for (int i = 0; i < a.Powers.Count; i++)
+            for (var i = 0; i < a.Powers.Count; i++)
             {
                 multMonom.Powers.Add(a.Powers[i] + b.Powers[i]);
             }
@@ -280,12 +268,12 @@ namespace Symbolic.Model.Polynomial
 
         public static Monom operator /(Monom a, Monom b)
         {
-            Monom divMonom = new Monom();
+            var divMonom = new Monom();
 
             if (CanDivide(a, b))
             {
                 divMonom._coef = a._coef / b._coef;
-                for (int i = 0; i < a.Powers.Count; i++)
+                for (var i = 0; i < a.Powers.Count; i++)
                 {
                     divMonom.Powers.Add(a.Powers[i] - b.Powers[i]);
                 }

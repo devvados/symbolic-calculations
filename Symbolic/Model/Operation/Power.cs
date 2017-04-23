@@ -1,9 +1,5 @@
-﻿using Symbolic.Model.Base;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
+using Symbolic.Model.Base;
 
 namespace Symbolic.Model.Operation
 {
@@ -13,13 +9,13 @@ namespace Symbolic.Model.Operation
 
         public static Function New(Function a, Function b)
         {
-            if (b is Constant && b.Calc(0) == 0)
+            if (b is Constant && Math.Abs(b.Calc(0)) < 0.0001)
                 return new Constant(1);
             return new Power(a, b);
         }
         public override double Calc(double val)
         {
-            return Math.Pow(leftFunc.Calc(val), rightFunc.Calc(val));
+            return Math.Pow(LeftFunc.Calc(val), RightFunc.Calc(val));
         }
 
         /// <summary>
@@ -28,12 +24,12 @@ namespace Symbolic.Model.Operation
         /// <returns></returns>
         public override Function Derivative()
         {
-            return rightFunc * (leftFunc ^ (rightFunc - new Constant(1))) * leftFunc.Derivative();
+            return RightFunc * (LeftFunc ^ (RightFunc - new Constant(1))) * LeftFunc.Derivative();
         }
 
         public override string ToString()
         {
-            return leftFunc + "^(" + rightFunc + ")";
+            return LeftFunc + "^(" + RightFunc + ")";
         }
     }
 }
