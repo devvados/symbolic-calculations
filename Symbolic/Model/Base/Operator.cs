@@ -11,10 +11,6 @@ namespace Symbolic.Model.Base
         protected readonly Function LeftFunc;
         protected readonly Function RightFunc;
 
-        //protected Operator(Function a)
-        //{
-        //    leftFunc = a;
-        //}
         protected Operator(Function a, Function b)
         {
             LeftFunc = a;

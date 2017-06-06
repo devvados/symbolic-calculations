@@ -17,6 +17,12 @@ namespace Symbolic.Model.Polynomial
         {
             var tempPolynom = poly;
 
+            for (var i = 0; i < tempPolynom.Monoms.Count; i++)
+            {
+                var m = tempPolynom.Monoms[i];
+                tempPolynom.Monoms[i] = m.OrderVariables();
+            }
+
             var monomRepeats = tempPolynom.Monoms.ToDictionary(m => m, m => 1);
             foreach (var t in tempPolynom.Monoms)
             {

@@ -13,14 +13,41 @@ namespace Symbolic.Model.Polynomial
         /// коэффициент и список степеней
         /// </summary>
         private double _coef;
-        public List<int> Powers;
+        public List<Tuple<string, int>> Powers;
 
         #region Свойства
 
         public double Coef
         {
-            get => _coef;
-            set => _coef = value;
+            get { return _coef; }
+            set { _coef = value; }
+        }
+
+        public int Degree
+        {
+            get
+            {
+                int sum = 0;
+                for (var i = 0; i < Powers.Count; i++)
+                {
+                    sum += Powers[i].Item2;
+                }
+
+                return sum;
+            }
+        }
+
+        public int GetPower
+        {
+            get
+            {
+                if (this.Powers.Find(x => x.Item1.Contains("x")) == null)
+                {
+                    this.Powers.Add(new Tuple<string, int>("x", 0));
+                }
+                var power = Powers.Find(x=>x.Item1.Contains("x"));
+                    return power.Item2;
+            }
         }
 
         #endregion
@@ -33,17 +60,17 @@ namespace Symbolic.Model.Polynomial
         public Monom()
         {
             _coef = 1;
-            Powers = new List<int>();
+            Powers = new List<Tuple<string, int>>();
         }
 
         /// <summary>
         /// Свободный член
         /// </summary>
         /// <param name="k"> Коэффициент </param>
-        public Monom(int k)
+        public Monom(double k)
         {
             _coef = k;
-            Powers = new List<int>();
+            Powers = new List<Tuple<string, int>>();
         }
 
         /// <summary>
@@ -51,7 +78,7 @@ namespace Symbolic.Model.Polynomial
         /// </summary>
         /// <param name="k"> Коэффициент </param>
         /// <param name="pow"> Список степеней </param>
-        public Monom(double k, List<int> pow)
+        public Monom(double k, List<Tuple<string, int>> pow)
         {
             _coef = k;
             Powers = pow;
@@ -64,10 +91,16 @@ namespace Symbolic.Model.Polynomial
         ///</summary>
         public object Clone()
         {
+            var newList = new List<Tuple<string, int>>();
+
+            this.Powers.ForEach((item) =>
+            {
+                newList.Add(item);
+            });
             return new Monom
             {
                 Coef = this.Coef,
-                Powers = new List<int>(Powers)
+                Powers = new List<Tuple<string, int>>(newList)
             };
         }
 
@@ -95,20 +128,33 @@ namespace Symbolic.Model.Polynomial
                 tempMonom = this;
                 for (var i = 0; i < tempMonom.Powers.Count; i++)
                 {
-                    if (Powers[i] > b.Powers[i])
+                    if (String.Compare(Powers[i].Item1, b.Powers[i].Item1, true) == 0)
                     {
-                        //первый больше
+                        if (Powers[i].Item2 > b.Powers[i].Item2)
+                        {
+                            //первый больше
+                            compared = 1;
+                            break;
+                        }
+                        else if (Powers[i].Item2 < b.Powers[i].Item2)
+                        {
+                            //второй больше
+                            compared = -1;
+                            break;
+                        }
+                        else if (Powers[i] == b.Powers[i])
+                            continue;
+                    }
+                    if (String.Compare(Powers[i].Item1, b.Powers[i].Item1, true) < 0)
+                    {
                         compared = 1;
                         break;
                     }
-                    else if (Powers[i] < b.Powers[i])
+                    if (String.Compare(Powers[i].Item1, b.Powers[i].Item1, true) > 0)
                     {
-                        //второй больше
                         compared = -1;
                         break;
                     }
-                    else if (Powers[i] == b.Powers[i])
-                        continue;
                 }
             }
             return compared;
@@ -123,6 +169,7 @@ namespace Symbolic.Model.Polynomial
         public static Monom GetLCM(Monom a, Monom b)
         {
             var lcm = new Monom();
+
             //Количество переменных в мономе
             if (a.Powers.Count > b.Powers.Count)
                 b.CompleteMonom(b);
@@ -132,7 +179,7 @@ namespace Symbolic.Model.Polynomial
             {
                 for (var i = 0; i < a.Powers.Count; i++)
                 {
-                    lcm.Powers.Add(a.Powers[i] > b.Powers[i] ? a.Powers[i] : b.Powers[i]);
+                    lcm.Powers.Add(a.Powers[i].Item2 > b.Powers[i].Item2 ? a.Powers[i] : b.Powers[i]);
                 }
             }
             return lcm;
@@ -148,12 +195,12 @@ namespace Symbolic.Model.Polynomial
             if (Powers.Count < compared.Powers.Count)
             {
                 while (Powers.Count < compared.Powers.Count)
-                    Powers.Add(0);
+                    Powers.Add(new Tuple<string, int>("x" /*+ ((Powers.Count)+1).ToString()*/, 0));
             }
             else if (Powers.Count > compared.Powers.Count)
             {
                 while (Powers.Count > compared.Powers.Count)
-                    compared.Powers.Add(0);
+                    compared.Powers.Add(new Tuple<string, int>("x" /*+ ((Powers.Count)+1).ToString()*/, 0));
             }
 
             return this;
@@ -176,7 +223,7 @@ namespace Symbolic.Model.Polynomial
                 if (a.Powers.Count > b.Powers.Count)
                 {
                     b.CompleteMonom(a);
-                    if (a.Powers.Where((t, i) => t < b.Powers[i]).Any())
+                    if (a.Powers.Where((t, i) => t.Item2 < b.Powers[i].Item2).Any())
                     {
                         canDivide = false;
                     }
@@ -184,6 +231,14 @@ namespace Symbolic.Model.Polynomial
             }
 
             return canDivide;
+        }
+
+        public Monom OrderVariables()
+        {
+            Monom temp = this;
+            temp.Powers = new List<Tuple<string, int>>(temp.Powers.OrderBy(x => x.Item1));
+
+            return temp;
         }
 
         /// <summary>
@@ -196,12 +251,12 @@ namespace Symbolic.Model.Polynomial
 
             for (int i = 0; i < Powers.Count; i++)
             {
-                if (Powers[i] != 0)
-                    toShow += Math.Abs(Powers[i]) > 1
-                        ? "*x" + (i + 1) + "^" + (Powers[i])
-                        : "*x" + (i + 1);
+                if (Powers[i].Item2 != 0)
+                    toShow += Math.Abs(Powers[i].Item2) > 1
+                        ? "*" + Powers[i].Item1 + "^" + (Powers[i].Item2)
+                        : "*" + Powers[i].Item1;
             }
-            return $"<{toShow.Insert(0, Coef.ToString("0.###;-0.###;0"))}>";
+            return $"{toShow.Insert(0, Coef.ToString("0.###;-0.###;0"))}";
         }
 
         /// <summary>
@@ -261,7 +316,13 @@ namespace Symbolic.Model.Polynomial
 
             for (var i = 0; i < a.Powers.Count; i++)
             {
-                multMonom.Powers.Add(a.Powers[i] + b.Powers[i]);
+                if (a.Powers[i].Item1 == b.Powers[i].Item1)
+                    multMonom.Powers.Add(new Tuple<string, int>(a.Powers[i].Item1, a.Powers[i].Item2 + b.Powers[i].Item2));
+                else
+                {
+                    multMonom.Powers.Add(new Tuple<string, int>(a.Powers[i].Item1, a.Powers[i].Item2));
+                    multMonom.Powers.Add(new Tuple<string, int>(b.Powers[i].Item1, b.Powers[i].Item2));
+                }
             }
             return multMonom;
         }
@@ -275,7 +336,7 @@ namespace Symbolic.Model.Polynomial
                 divMonom._coef = a._coef / b._coef;
                 for (var i = 0; i < a.Powers.Count; i++)
                 {
-                    divMonom.Powers.Add(a.Powers[i] - b.Powers[i]);
+                    divMonom.Powers.Add(new Tuple<string, int>(a.Powers[i].Item1, a.Powers[i].Item2 - b.Powers[i].Item2));
                 }
             }
             return divMonom;

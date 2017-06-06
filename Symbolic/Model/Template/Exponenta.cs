@@ -33,17 +33,25 @@ namespace Symbolic.Model.Template
             if (_innerF != null)
                 return new Exponenta(_innerF) * _innerF.Derivative();
             else
-                return this; //new Constant(Math.Log(a, Math.E)) * this
+                return this; 
         }
 
+        #region Print formula
+
+        /// <summary>
+        /// String view
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             if (_innerF != null)
-                return $"e^({_innerF})";
+                return $"exp({_innerF})";
             else
             {
-                return Math.Abs(_a - Math.E) <= 10e-6 ? "e^x" : $"{_a}^x";
+                return Math.Abs(_a - Math.E) <= 10e-6 ? "exp(x)" : $"{_a}^x";
             }
         }
+        
+        #endregion
     }
 }

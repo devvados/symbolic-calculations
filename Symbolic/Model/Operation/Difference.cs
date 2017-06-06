@@ -38,7 +38,7 @@ namespace Symbolic.Model.Operation
 
         public override string ToString()
         {
-            return LeftFunc + " - (" + RightFunc + ")";
+            return "(" + LeftFunc + ") - (" + RightFunc + ")";
         }
     }
 }

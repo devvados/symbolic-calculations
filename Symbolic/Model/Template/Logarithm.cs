@@ -10,6 +10,7 @@ namespace Symbolic.Model.Template
     {
         private readonly double _a;
         private readonly Function _innerF;
+
         public Logarithm(double a = Math.E)
         {
             _a = a;
@@ -37,18 +38,26 @@ namespace Symbolic.Model.Template
                 if (Math.Abs(_a - Math.E) <= 10e-6)
                     return 1 / (_innerF) * _innerF.Derivative();
                 else
-                    return 1 / (Funcs.Id * /*Funcs.Ln(new Constant(a))*/ Math.Log(_a, Math.E)) * _innerF.Derivative();
+                    return 1 / (Funcs.Id * Math.Log(_a, Math.E)) * _innerF.Derivative();
             }
             else
-                return 1 / (Funcs.Id * /*Funcs.Ln(new Constant(a)*/ Math.Log(_a, Math.E));
+                return 1 / (Funcs.Id * Math.Log(_a, Math.E));
         }
 
+        #region Print formula
+
+        /// <summary>
+        /// String view
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             if (Math.Abs(_a - Math.E) <= 10e-6)
                 return (_innerF != null) ? $"ln({_innerF})" : "ln(x)";
             else
-                return (_innerF != null) ? $"log[{_a}]({_innerF})" : "log[" + _a + "](x)"; ;
+                return (_innerF != null) ? $"log[{_a}]({_innerF})" : "log[" + _a + "](x)";
         }
+
+        #endregion
     }
 }

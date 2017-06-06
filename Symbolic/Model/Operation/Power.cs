@@ -1,11 +1,12 @@
 ﻿using System;
 using Symbolic.Model.Base;
+using Symbolic.Model.Template;
 
 namespace Symbolic.Model.Operation
 {
-    class Power : Operator
+    public class Power : Operator
     {
-        private Power(Function a, Function b) : base(a, b) { }
+        public Power(Function a, Function b) : base(a, b) { }
 
         public static Function New(Function a, Function b)
         {

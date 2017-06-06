@@ -1,16 +1,21 @@
-﻿using System;
+﻿ using System;
 using Symbolic.Model.Operation;
 
 namespace Symbolic.Model.Base
 {
     public abstract class Function
     {
+        #region  Calculation
+
         /// <summary>
         /// Значение функции в точке
         /// </summary>
         /// <param name="val"></param>
         /// <returns></returns>
-        public abstract double Calc(double val);
+        public virtual double Calc(double val)
+        {
+            return 0;
+        }
 
         /// <summary>
         /// Для полинома
@@ -22,11 +27,18 @@ namespace Symbolic.Model.Base
             return 0;
         }
 
+        #endregion
+
+        #region Derivative
+
         /// <summary>
         /// Производная функции
         /// </summary>
         /// <returns></returns>
-        public abstract Function Derivative();
+        public virtual Function Derivative()
+        {
+            return null;
+        }
 
         /// <summary>
         /// Для полинома
@@ -37,6 +49,8 @@ namespace Symbolic.Model.Base
         {
             return null;
         }
+
+        #endregion
 
         /// <summary>
         /// n - derivative of function
@@ -111,15 +125,6 @@ namespace Symbolic.Model.Base
         public static Function operator /(Function a, Function b)
         {
             return Division.New(a, b);
-        }
-
-        /// <summary>
-        /// Composition operator
-        /// </summary>
-        /// <returns>Composition.New(a, b)</returns>
-        public static Function operator %(Function a, Function b)
-        {
-            return Composition.New(a, b);
         }
 
         #endregion

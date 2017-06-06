@@ -1,4 +1,5 @@
-﻿using Symbolic.Model.Base;
+﻿using System;
+using Symbolic.Model.Base;
 
 namespace Symbolic.Model.Template
 {

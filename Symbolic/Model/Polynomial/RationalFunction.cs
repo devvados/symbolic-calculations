@@ -1,4 +1,5 @@
 ﻿using Symbolic.Model.Base;
+using Symbolic.Model.Template;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,10 @@ namespace Symbolic.Model.Polynomial
         {
             Numerator = num;
             Denominator = denom;
+        }
+
+        public RationalFunction()
+        {
         }
 
         #region Наследование от класса Function
@@ -72,7 +77,8 @@ namespace Symbolic.Model.Polynomial
         {
             divisionResult = new List<Monom>();
 
-            if (Numerator.LT.CompareTo(Denominator.LT) >= 0) //сравниваем степени числителя и знаменателя
+            //сравниваем степени числителя и знаменателя
+            if (Numerator.LT.CompareTo(Denominator.LT) >= 0) 
             {
                 Polynom reminder;
                 Polynom.DividePolynoms(Numerator, Denominator, out divisionResult, out reminder);
@@ -88,7 +94,47 @@ namespace Symbolic.Model.Polynomial
         /// <returns></returns>
         public override string ToString()
         {
-            return $"{Numerator}/{Denominator}";
+            return $"({Numerator})/({Denominator})";
+        }
+
+        /// <summary>
+        /// Интегрирование методом Ротштейна и Трагера
+        /// </summary>
+        /// <returns></returns>
+        public Function Integrate()
+        {
+            var denomimatorDerivative = PolynomParser.Parse(Denominator.Derivative().ToString());
+            var arg2 = Numerator - (denomimatorDerivative * 
+                new Monom(1, new List<Tuple<string, int>>()
+                {
+                    new Tuple<string, int>("c", 1)
+                }));
+
+            //Поиск результанта
+            var res = Polynom.Resultant(Denominator, arg2);
+
+            //Поиск корней
+            var roots = Polynom.FindRoots(res);
+            
+            List <Tuple<Polynom, double>> GCDs = new List<Tuple<Polynom, double>>();
+            foreach (var root in roots)
+            {
+                GCDs.Add(new Tuple<Polynom, double>(Polynom.GetGCD(Denominator, Numerator - (denomimatorDerivative * new Monom(root))), root));
+            }
+
+            List<Function> funcs = new List<Function>();
+            foreach (var pair in GCDs)
+            {
+                funcs.Add(new Constant(pair.Item2) * Funcs.Ln(pair.Item1));
+            }
+
+            Function result = new Constant(0);
+            foreach (var f in funcs)
+            {
+                result += f;
+            }
+
+            return result;
         }
     }
 }

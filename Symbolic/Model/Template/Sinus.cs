@@ -7,10 +7,7 @@ namespace Symbolic.Model.Template
     {
         private readonly Function _innerF;
 
-        public Sinus()
-        {
-
-        }
+        public Sinus() { }
 
         public Sinus(Function f)
         {
@@ -34,9 +31,17 @@ namespace Symbolic.Model.Template
                 return Funcs.Cos();
         }
 
+        #region Print formula
+
+        /// <summary>
+        /// String view
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
-            return _innerF != null ? $"sin({_innerF})" : "sin(x)";
+            return (_innerF != null) ? $"sin({_innerF})" : "sin(x)";
         }
+
+        #endregion
     }
 }

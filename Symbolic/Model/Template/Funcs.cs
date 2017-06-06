@@ -57,6 +57,11 @@ namespace Symbolic.Model.Template
             return new Logarithm(f, a);
         }
 
+        public static Function Sq(Function f = null)
+        {
+            return new Sqrt(f);
+        }
+
         #region Trigonometric functions
 
         /// <summary>
@@ -143,25 +148,6 @@ namespace Symbolic.Model.Template
 
         #endregion
 
-        #region Distributions
-
-        /// <summary>
-        /// Fa(x) = 0 if x less than 0, and 1 - e^(-a*x) otherwise;
-        /// </summary>
-        /// <param name="a"></param>
-        /// <returns></returns>
-        public static Function NormalDistribition(double a = 1)
-        {
-            return Iplus * (1 - (Exp() % (-a * Id)));
-        }
-
-        public static Function UniformDistribution(double a, double b)
-        {
-            return new IntervalFunction(a, b) * ((Id - a) / (b - a)) + new IntervalFunction(b, double.PositiveInfinity);
-        }
-
-        #endregion
-
         #region Numeric Integration
 
         /// <summary>
@@ -231,27 +217,6 @@ namespace Symbolic.Model.Template
             return h * sum / 3;
         }
 
-        #endregion
-
-        #region Interval functions
-
-        /// <summary>
-        /// Interval from 0 to +Infinity
-        /// </summary>
-        public static readonly Function Iplus = new IntervalFunction(0, double.PositiveInfinity);
-
-        /// <summary>
-        /// Interval from -Infinity to 0
-        /// </summary>
-        public static readonly Function Iminus = new IntervalFunction(double.NegativeInfinity, 0);
-
-        #endregion        
-
-        /// <summary>
-        /// Signum
-        /// </summary>
-        public static readonly Function Sign = Iplus - Iminus;
-
-        public static readonly Function Abs = Sign * Id;
+        #endregion  
     }
 }

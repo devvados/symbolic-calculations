@@ -28,8 +28,8 @@ namespace Symbolic.Model.Polynomial
 
         public Polynom this[int index]
         {
-            get => System[index];
-            set => System[index] = value;
+            get { return System[index]; }
+            set { System[index] = value; }
         }
 
         #endregion

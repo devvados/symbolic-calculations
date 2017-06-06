@@ -1,12 +1,61 @@
-﻿using Symbolic.Model.Base;
+﻿using MathNet.Symbolics;
+using Symbolic.Model.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Expr = MathNet.Symbolics.Expression;
+using PolyLib;
 
 namespace Symbolic.Model.Polynomial
 {
-    class Polynom : Function, ICloneable
+    static class Extensions
+    {
+        public static List<T> Clone<T>(this List<T> listToClone) where T : ICloneable
+        {
+            return listToClone.Select(item => (T)item.Clone()).ToList();
+        }
+    }
+
+    class Pair
+    {
+        int power;
+        Polynom p;    
+
+        public Pair(int pow, Polynom poly)
+        {
+            P = poly;
+            Power = pow;
+        }
+
+        public int Power
+        {
+            get
+            {
+                return power;
+            }
+
+            set
+            {
+                power = value;
+            }
+        }
+
+        internal Polynom P
+        {
+            get
+            {
+                return p;
+            }
+
+            set
+            {
+                p = value;
+            }
+        }
+    }
+
+    class Polynom : Base.Function, ICloneable
     {
         /// <summary>
         /// Список мономов
@@ -30,7 +79,11 @@ namespace Symbolic.Model.Polynomial
                 var max = 0;
                 foreach (var t in Monoms)
                 {
-                    var sum = t.Powers.Sum();
+                    var sum = 0;
+                    for (var i = 0; i < t.Powers.Count; i++)
+                    {
+                        sum += t.Powers[i].Item2;
+                    }
 
                     if (sum > max)
                         max = sum;
@@ -39,12 +92,12 @@ namespace Symbolic.Model.Polynomial
             }
         }
 
-        public List<int> Multideg => LT.Powers;
+        public List<Tuple<string, int>> Multideg => LT.Powers;
 
-        public Monom this[int index]
+        public new Monom this[int index]
         {
-            get => Monoms[index];
-            set => Monoms[index] = value;
+            get { return Monoms[index]; }
+            set { Monoms[index] = value; }
         }
 
         #endregion
@@ -63,16 +116,30 @@ namespace Symbolic.Model.Polynomial
 
         #endregion
 
-        #region Наследование от класса Function
+        #region Производная, интеграл, значение в точке
 
-        public override Function Derivative()
+        /// <summary>
+        /// Производная по какой-то переменной
+        /// </summary>
+        /// <param name="varnum"> Порядок переменной </param>
+        /// <returns></returns>
+        public override Base.Function Derivative()
         {
-            throw new NotImplementedException();
+            var f = Infix.ParseOrThrow(this.ToString());
+            var der = Calculus.Differentiate(Expr.Symbol("x"), f);
+            var poly = PolynomParser.Parse(Infix.Format(der));
+
+            return poly;
         }
 
-        public override double Calc(double val)
+        /// <summary>
+        /// Вычисление значения в точке (x1, x2, ..., xn)
+        /// </summary>
+        /// <param name="val"></param>
+        /// <returns></returns>
+        public override double Calc(params double[] val)
         {
-            throw new NotImplementedException();
+            return 0;
         }
 
         #endregion
@@ -110,6 +177,11 @@ namespace Symbolic.Model.Polynomial
 
             for (var i = 0; i < Monoms.Count; i++)
             {
+                Monoms[i].Powers.RemoveAll(x => x.Item2 == 0);
+            }
+
+            for (var i = 0; i < Monoms.Count; i++)
+            {
                 for (var j = i + 1; j < Monoms.Count; j++)
                 {
                     if (Monom.AreEqual(Monoms[i], Monoms[j]))
@@ -123,78 +195,7 @@ namespace Symbolic.Model.Polynomial
             return new Polynom(Monoms);
         }
 
-        /// <summary>
-        /// Строковое представление полинома
-        /// </summary>
-        /// <returns> Полином-строка </returns>
-        public override string ToString()
-        {
-            var stringPoly = new StringBuilder();
-
-            if (Monoms.Count > 0)
-            {
-                for (var i = 0; i < Monoms.Count; i++)
-                {
-                    stringPoly.Append(Monoms[i]);
-                    if ((i + 1) < Monoms.Count)
-                    {
-                        stringPoly.Append(" + ");
-                    }
-                    else if ((i + 1) == Monoms.Count)
-                    {
-                        break;
-                    }
-                }
-            }
-            else
-            {
-                stringPoly.Append("0");
-            }
-            return stringPoly.ToString();
-        }
-
-        /// <summary>
-        /// Производная по какой-то переменной
-        /// </summary>
-        /// <param name="varnum"> Порядок переменной </param>
-        /// <returns></returns>
-        public override Function Derivative(int varnum)
-        {
-            int variable = varnum - 1;
-
-            if (variable > Monoms.Count)
-            {
-                Monoms.Clear();
-            }
-            else
-            {
-                foreach (Monom m in Monoms)
-                {
-                    if (m.Powers[variable] == 0)
-                    {
-                        Monoms.RemoveAt(variable);
-                    }
-                    else
-                    {
-                        m.Coef *= m.Powers[variable];
-                        m.Powers[variable] -= 1;
-                    }
-                }
-
-            }
-
-            return new Polynom(Monoms);
-        }
-
-        /// <summary>
-        /// Вычисление значения в точке (x1, x2, ..., xn)
-        /// </summary>
-        /// <param name="val"></param>
-        /// <returns></returns>
-        public override double Calc(params double[] val)
-        {
-            return 0;
-        }
+        #region Наибольший общий делитель
 
         /// <summary>
         /// Наибольший общий делитель 2-х полиномов
@@ -206,6 +207,9 @@ namespace Symbolic.Model.Polynomial
         {
             var h = f.Degree > g.Degree ? (Polynom)f.Clone() : (Polynom)g.Clone();
             var s = f.Degree < g.Degree ? (Polynom)f.Clone() : (Polynom)g.Clone();
+
+            h = LexOrder.CreateOrderedPolynom(h);
+            s = LexOrder.CreateOrderedPolynom(s);
 
             while (!s.IsNull)
             {
@@ -263,12 +267,44 @@ namespace Symbolic.Model.Polynomial
                     q.Add(divLT);
                     var temp = g * (divLT);
                     r = r - temp;
-                    r = LexOrder.CreateOrderedPolynom(r);
                     r = r.SimplifyPolynom();
+                    r = LexOrder.CreateOrderedPolynom(r);                  
                 }
                 else
                     break;
             }
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Строковое представление полинома
+        /// </summary>
+        /// <returns> Полином-строка </returns>
+        public override string ToString()
+        {
+            var stringPoly = new StringBuilder();
+
+            if (Monoms.Count > 0)
+            {
+                for (var i = 0; i < Monoms.Count; i++)
+                {
+                    stringPoly.Append(Monoms[i]);
+                    if ((i + 1) < Monoms.Count)
+                    {
+                        stringPoly.Append(" + ");
+                    }
+                    else if ((i + 1) == Monoms.Count)
+                    {
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                stringPoly.Append("0");
+            }
+            return stringPoly.ToString();
         }
 
         /// <summary>
@@ -284,6 +320,171 @@ namespace Symbolic.Model.Polynomial
             return sp;
         }
 
+        public static Polynom Resultant(Polynom a, Polynom b)
+        {
+            List<Pair> polyList = new List<Pair>();
+            Polynom tempA = LexOrder.CreateOrderedPolynom(new Polynom(Extensions.Clone(a.Monoms))), 
+                    tempB = LexOrder.CreateOrderedPolynom(new Polynom(Extensions.Clone(b.Monoms)));
+            var matrixArray = new Polynom[][] { };
+
+            var b1 = LexOrder.CreateOrderedPolynom(b);
+            var a1 = LexOrder.CreateOrderedPolynom(a);
+            a1.Monoms.RemoveAll(x => x.Coef == 0);
+            b1.Monoms.RemoveAll(x => x.Coef == 0);
+
+            int max1 = FindMaxPower(a), max2 = FindMaxPower(b);
+
+            //Сгруппированные выражения по степеням х
+            List<Pair> polyList1 = GroupCoefficients(tempA),
+                       polyList2 = GroupCoefficients(tempB);
+            var filledPairs1 = FillPairList(polyList1);
+            var filledPairs2 = FillPairList(polyList2);
+
+            List<List<Polynom>> matrix = new List<List<Polynom>>();
+            //Построение части матрицы
+            int step = 0;
+            for (var i = 0; i < max2; i++)
+            {
+                step = i;
+                var row = new List<Polynom>(new Polynom[a1.LT.GetPower+b1.LT.GetPower]);
+
+                row.RemoveRange(0, filledPairs1.Count);
+                row.InsertRange(step, filledPairs1.Select(x => x.P));
+
+                FillPolynom(row);
+                matrix.Add(row);
+                step++;
+            }
+            //Построение части матрицы
+            step = 0;
+            for (var i = 0; i < max1; i++)
+            {
+                step = i;
+                var row = new List<Polynom>(new Polynom[a1.LT.GetPower + b1.LT.GetPower]);
+                row.RemoveRange(0, filledPairs2.Count);
+                row.InsertRange(step, filledPairs2.Select(x => x.P));
+
+                FillPolynom(row);
+                matrix.Add(row);
+                step++;
+            }
+            
+            Matrix m = new Matrix(matrix);
+            var det = m.Determinant();
+            
+            return det;   
+        }
+
+        public static List<double> FindRoots(Polynom a)
+        {
+            List<double> roots = new List<double>();
+
+            WolframAlphaNET.WolframAlpha w = new WolframAlphaNET.WolframAlpha("RAG9YE-E5PVQUEEKT");
+            var res = w.Query(a.ToString() + " = 0");
+
+            if (res != null)
+            {
+                var s = res.Pods[1].SubPods.ToList();
+                foreach (var s1 in s)
+                {
+                    if (s1.Plaintext.Contains("x"))
+                    {
+                        var s2 = s1.Plaintext.Replace("x = ", "");
+                        if (s2.Contains("/"))
+                        {
+                            roots.Add(FromFraction(s2));
+                        }
+                        else
+                        {
+                            roots.Add(Convert.ToDouble(s2));
+                            var v = new PolyLib.Polynomial(-1, 1).Roots();
+                        }
+                    }
+                }
+            }
+  
+            return roots;
+        }
+
+        public static double FromFraction(string str)
+        {
+            string[] str1 = str.Split('/');
+            double d = Convert.ToDouble(str1[0]) / Convert.ToDouble(str1[1]);
+            return d;
+        }
+
+        public static void FillPolynom(List<Polynom> row)
+        {
+            for (var k = 0; k < row.Count; k++)
+            {
+                if (row[k] == null)
+                    row[k] = new Polynom(new List<Monom> { new Monom(0) });
+            }
+        }
+
+        public static List<Pair> GroupCoefficients(Polynom a)
+        {
+            List<Pair> polyList = new List<Pair>();
+            Dictionary<int, Polynom> polyDict = new Dictionary<int, Polynom>();
+
+            //разделение на слагаемые
+            var subList = a.Monoms.FindAll(x => x.Powers.FindAll(y => y.Item1.Contains("x")) != null);
+            
+            //группировка по степеням
+            foreach (var item in subList)
+            {
+                var pow = item.GetPower;
+                if (!polyDict.Keys.ToList().Contains(pow))
+                {
+                    var p = new Polynom();
+                    item.Powers.RemoveAll(x => x.Item1.Contains("x"));
+                    p.Monoms.Add(item);
+                    polyDict.Add(pow, p);
+                }
+                else
+                {
+                    item.Powers.RemoveAll(x => x.Item1.Contains("x"));
+                    polyDict[pow].Monoms.Add(item);
+                }
+            }
+            polyDict.OrderByDescending(x => x.Key);
+
+            foreach (var kvp in polyDict)
+            {
+                polyList.Add(new Pair(kvp.Key, kvp.Value));
+            }
+
+            return polyList;
+        }
+
+        public static int FindMaxPower(Polynom a)
+        {
+            int max = 0;
+            foreach (var m in a.Monoms)
+            {
+                if (m.Powers.Count > 0)
+                {
+                    int tempMax = m.GetPower;
+                    if (tempMax > max)
+                        max = tempMax;
+                }
+            }
+            return max;
+        }
+
+        public static List<Pair> FillPairList(List<Pair> pair)
+        {
+            int maxPow = pair.Max(x => x.Power);
+            for (var i = 0; i < maxPow; i++)
+            {
+                if (pair.Find(x => x.Power == i) == null)
+                {
+                    pair.Add(new Pair(i, new Polynom()));
+                }
+            }
+            return pair.OrderByDescending(x => x.Power).ToList();
+        }
+
         #region Операторы унарные/бинарные
 
         public static Polynom operator +(Polynom a, Polynom b)
@@ -294,6 +495,7 @@ namespace Symbolic.Model.Polynomial
             res.SimplifyPolynom();
             return res;
         }
+
         public static Polynom operator -(Polynom p)
         {
             Polynom res = (Polynom)p.Clone();
@@ -303,6 +505,7 @@ namespace Symbolic.Model.Polynomial
             }
             return res;
         }
+
         public static Polynom operator -(Polynom a, Polynom b)
         {
             Polynom res = new Polynom();
@@ -311,6 +514,7 @@ namespace Symbolic.Model.Polynomial
             res.SimplifyPolynom();
             return res;
         }
+
         public static Polynom operator *(Polynom p, Monom m)
         {
             Polynom tempPoly = (Polynom)p.Clone();

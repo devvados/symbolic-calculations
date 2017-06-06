@@ -1,4 +1,6 @@
-﻿using Symbolic.Model.Template;
+﻿using System;
+using Symbolic.Model.Template;
+using System.Globalization;
 
 namespace Symbolic.Model.Base
 {
@@ -23,7 +25,7 @@ namespace Symbolic.Model.Base
 
         public override string ToString()
         {
-            return _value.ToString();
+            return _value.ToString("0.####", CultureInfo.InvariantCulture.NumberFormat);
         }
     }
 }
