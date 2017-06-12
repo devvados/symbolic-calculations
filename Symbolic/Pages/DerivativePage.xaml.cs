@@ -74,20 +74,24 @@ namespace Symbolic.Pages
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public Expr SimplifyFunctionsByMathNET(object input)
+        public Model.Base.Function SimplifyFunctionsByMathNET(object input)
         {
             Model.Base.Function func = input as Model.Base.Function;
 
             if (func is Model.Base.Constant)
             {
-                return 0;
+                return new Model.Base.Constant(0);
             }
             else
             {
                 //Упрощаем производную 
-                var derivativeFunction = Infix.ParseOrUndefined(func.Derivative().ToString());
+                var der = Infix.ParseOrUndefined(func.Derivative().ToString());
+                var derStr = Infix.Format(der);
+                var derivative = (new CalculatorVisitor().Visit(
+                                    new CalculatorParser(new CommonTokenStream(
+                                        new CalculatorLexer(new AntlrInputStream(derStr)))).prog()));
 
-                return derivativeFunction;
+                return derivative;
             }
         }
 
@@ -115,8 +119,7 @@ namespace Symbolic.Pages
                     TBDerivFormula.Dispatcher.BeginInvoke(
                         new Action(() =>
                         {
-                            var tex = @"f' = " /*+ @"\left(" + f.ToLatexString() + @"\right)' = "*/ + LaTeX.Format(texDer);
-                            TBDerivFormula.Text = tex;
+                            TBDerivFormula.Text = @"f' = " + texDer.ToLatexString();// + " = " + texDer.ToLatexString();
                         }
                     ));
                 }

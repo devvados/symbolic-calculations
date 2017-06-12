@@ -46,7 +46,7 @@ namespace Symbolic.Model.Template
 
         public override string ToLatexString()
         {
-            return $@"exp\left({_innerF.ToLatexString()}\right)";
+            return $@"\exp \left({_innerF.ToLatexString()}\right)";
         }
 
         #endregion

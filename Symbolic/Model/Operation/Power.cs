@@ -35,7 +35,7 @@ namespace Symbolic.Model.Operation
 
         public override string ToLatexString()
         {
-            return LeftFunc.ToLatexString() + "^" + RightFunc.ToLatexString();
+            return LeftFunc.ToLatexString() + "^{" + RightFunc.ToLatexString() + "}";
         }
     }
 }
