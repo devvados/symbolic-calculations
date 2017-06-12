@@ -24,10 +24,7 @@ namespace Symbolic.Model.Template
         /// <returns></returns>
         public override Function Derivative()
         {
-            if (_innerF != null)
-                return (1 / (2 * new Sqrt(_innerF))) * _innerF.Derivative();
-            else
-                return 1 / (2 * new Sqrt());
+            return (1 / (2 * new Sqrt(_innerF))) * _innerF.Derivative();
         }
 
         #region Print formula
@@ -38,12 +35,12 @@ namespace Symbolic.Model.Template
         /// <returns></returns>
         public override string ToString()
         {
-            if (_innerF != null)
-            {
-                return $"sqrt({_innerF})";
-            }
-            else
-                return $"sqrt(x)";
+            return $"sqrt({_innerF})";
+        }
+
+        public override string ToLatexString()
+        {
+            return $@"\sqrt ({_innerF.ToLatexString()})";;
         }
 
         #endregion  

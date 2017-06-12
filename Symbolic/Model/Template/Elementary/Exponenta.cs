@@ -3,19 +3,25 @@ using System;
 
 namespace Symbolic.Model.Template
 {
-    public class Cosinus : Function
+    public class Exponenta : Function
     {
+        private readonly double _a;
         private readonly Function _innerF;
 
-        public Cosinus() { }
-
-        public Cosinus(Function f)
+        public Exponenta(double a = Math.E)
         {
+            _a = a;
+        }
+
+        public Exponenta(Function f, double a = Math.E)
+        {
+            _a = a;
             _innerF = f;
         }
+
         public override double Calc(double val)
         {
-            return Math.Cos(val);
+            return Math.Pow(_a, val);
         }
 
         /// <summary>
@@ -24,7 +30,7 @@ namespace Symbolic.Model.Template
         /// <returns></returns>
         public override Function Derivative()
         {
-            return (_innerF != null) ? -1 * Funcs.Sin(_innerF) * _innerF.Derivative() : (-1 * Funcs.Sin());
+            return new Exponenta(_innerF) * _innerF.Derivative();
         }
 
         #region Print formula
@@ -35,7 +41,12 @@ namespace Symbolic.Model.Template
         /// <returns></returns>
         public override string ToString()
         {
-            return (_innerF != null) ? $"cos({_innerF})" : "cos(x)";
+            return $"exp({_innerF})";
+        }
+
+        public override string ToLatexString()
+        {
+            return $@"exp\left({_innerF.ToLatexString()}\right)";
         }
 
         #endregion

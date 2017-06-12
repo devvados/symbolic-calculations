@@ -1,0 +1,81 @@
+﻿<Page x:Class="Symbolic.Pages.MatrixPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Symbolic.Pages"
+      xmlns:controls="clr-namespace:Symbolic.UserControls"
+      mc:Ignorable="d" 
+      d:DesignHeight="300" d:DesignWidth="400"
+      Title="Матрицы">
+    <Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                </Grid.RowDefinitions>
+                <DockPanel Grid.Row="0">
+                    <Label Content="A" Margin="10" Height="30" FontSize="18" VerticalContentAlignment="Center" HorizontalAlignment="Center"/>
+                </DockPanel>
+                <Grid Margin="5" Grid.Row="1">
+                    <controls:MatrixControl x:Name="DGMatrixA"/>
+                </Grid>
+                <Button x:Name="BMatrixDetA" Grid.Row="2" Tag="A" Content="Определитель" ClipToBounds="True"  Margin="10,5" Height="30" Click="BMatrixDet_Click"/>
+                <Button x:Name="BMatrixRankA" Grid.Row="3" Tag="A" Content="Ранг" ClipToBounds="True"  Margin="10,5" Height="30" Click="BMatrixRank_Click"/>
+                <Button x:Name="BMatrixATranspose" Grid.Row="4" Tag="A" Content="Ядро" ClipToBounds="True" Margin="10,5" Height="30" Click="BMatrixKernel_Click"/>
+            </Grid>
+            <StackPanel Grid.Column="1">
+                <Label Content="Операции" Height="30" Margin="10" FontSize="18" VerticalContentAlignment="Center" HorizontalAlignment="Center"/>
+                <Button x:Name="BSum" Content="Сложить" Margin="15,15,15,5" Height="30" Click="BSum_Click"/>
+                <Button x:Name="BDif" Content="Вычесть" Margin="15,5,15,5" Height="30" Click="BDif_Click"/>
+                <Button x:Name="BMult" Content="Умножить" Margin="15,5,15,5" Height="30" Click="BMult_Click"/>
+            </StackPanel>
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                </Grid.RowDefinitions>
+                <DockPanel Grid.Row="0">
+                    <Label Content="B" Margin="10" Height="30" FontSize="18" VerticalContentAlignment="Center" HorizontalAlignment="Center"/>
+                </DockPanel>
+                <Grid Margin="5" Grid.Row="1">
+                    <controls:MatrixControl x:Name="DGMatrixB"/>
+                </Grid>
+                <Button x:Name="BMatrixDetB" Grid.Row="2" Tag="B" Content="Определитель" ClipToBounds="True"  Margin="10,5" Height="30" Click="BMatrixDet_Click"/>
+                <Button x:Name="BMatrixRankB" Grid.Row="3" Tag="B" Content="Ранг" ClipToBounds="True"  Margin="10,5" Height="30" Click="BMatrixRank_Click"/>
+                <Button x:Name="BMatrixBTranspose" Grid.Row="4" Tag="B" Content="Ядро" ClipToBounds="True" Margin="10,5" Height="30" Click="BMatrixKernel_Click"/>
+            </Grid>
+            <Grid Grid.Column="3">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                </Grid.RowDefinitions>
+                <DockPanel Grid.Row="0">
+                    <Label Content="Результат" Margin="10" Height="30" FontSize="18" VerticalContentAlignment="Center" HorizontalAlignment="Center"/>
+                </DockPanel>
+                <Grid Margin="5" Grid.Row="1">
+                    <controls:MatrixControl x:Name="DGMatrixC"/>
+                </Grid>
+                <Button x:Name="BMatrixDetC" Grid.Row="2" Tag="B" Content="Определитель" ClipToBounds="True"  Margin="10,5" Height="30" Click="BMatrixDet_Click"/>
+                <Button x:Name="BMatrixRankC" Grid.Row="3" Tag="B" Content="Ранг" ClipToBounds="True"  Margin="10,5" Height="30" Click="BMatrixRank_Click"/>
+                <Button x:Name="BMatrixCTranspose" Grid.Row="4" Tag="B" Content="Ядро" ClipToBounds="True" Margin="10,5" Height="30" Click="BMatrixKernel_Click"/>
+            </Grid>
+        </Grid>
+    </Grid>
+</Page>

@@ -1,4 +1,5 @@
 ﻿using Symbolic.Model.Base;
+using static Symbolic.Model.Template.Funcs;
 using System;
 
 namespace Symbolic.Model.Template
@@ -14,21 +15,26 @@ namespace Symbolic.Model.Template
             _innerF = f;
         }
 
+        public Function InnerF
+        {
+            get
+            {
+                return _innerF;
+            }
+        }
+
         public override double Calc(double val)
         {
             return Math.Sin(val);
         }
 
         /// <summary>
-        /// Deirvative RULE
+        /// Deirvative rule
         /// </summary>
         /// <returns></returns>
         public override Function Derivative()
         {
-            if (_innerF != null)
-                return Funcs.Cos(_innerF) * _innerF.Derivative();
-            else
-                return Funcs.Cos();
+            return  Cos(InnerF) * InnerF.Derivative();
         }
 
         #region Print formula
@@ -39,7 +45,12 @@ namespace Symbolic.Model.Template
         /// <returns></returns>
         public override string ToString()
         {
-            return (_innerF != null) ? $"sin({_innerF})" : "sin(x)";
+            return  $"sin({InnerF})";
+        }
+
+        public override string ToLatexString()
+        {
+            return $@"\sin ({InnerF.ToLatexString()})";
         }
 
         #endregion

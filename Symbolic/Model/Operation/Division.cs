@@ -41,5 +41,10 @@ namespace Symbolic.Model.Operation
         {
             return  LeftFunc + "/ (" + RightFunc + ")";
         }
+
+        public override string ToLatexString()
+        {
+            return "frac{" + LeftFunc.ToLatexString() + "}{" + RightFunc.ToLatexString() + "}";
+        }
     }
 }

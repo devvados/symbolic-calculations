@@ -27,5 +27,10 @@ namespace Symbolic.Model.Base
         {
             return _value.ToString("0.####", CultureInfo.InvariantCulture.NumberFormat);
         }
+
+        public override string ToLatexString()
+        {
+            return $"{_value}";
+        }
     }
 }

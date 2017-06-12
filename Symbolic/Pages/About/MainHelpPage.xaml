@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="Symbolic.Pages.About.MainHelpPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Symbolic.Pages.About"
+      mc:Ignorable="d" 
+      d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <GroupBox Background="White" BorderThickness="0">
+            <GroupBox.Header>
+                <Label Content="Информация" FontSize="20" FontWeight="SemiBold" HorizontalAlignment="Center"/>
+            </GroupBox.Header>
+            <TextBlock TextWrapping="WrapWithOverflow" Margin="10" FontSize="18">
+                <Run Text="Приложение разработано для:"/><LineBreak/>
+                <Run Text=" - поиска производных сложных и простых функций, а также частных производных."/><LineBreak/>
+                <Run Text=" - поиска неопределенных интегралов рациональных функций от одной переменной (знаменатель не должен содержать кратных корней)."/><LineBreak/>
+                <Run Text=" - вычислений над матрицами, таких как: сложение, вычитание, перемножение матриц. А также нахождение обратной матрицы, определителя матрицы, ранга матрицы."/>
+            </TextBlock>
+        </GroupBox>
+    </Grid>
+</UserControl>

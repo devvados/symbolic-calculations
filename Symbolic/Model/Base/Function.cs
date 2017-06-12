@@ -70,6 +70,8 @@ namespace Symbolic.Model.Base
             }
         }
 
+        public abstract string ToLatexString();
+
         #region f(x) <OPERATOR> g(x)
 
         /// <summary>

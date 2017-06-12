@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using Expr = MathNet.Symbolics.Expression;
 using PolyLib;
+using Symbolic.Model.Parser;
 
 namespace Symbolic.Model.Polynomial
 {
@@ -483,6 +484,11 @@ namespace Symbolic.Model.Polynomial
                 }
             }
             return pair.OrderByDescending(x => x.Power).ToList();
+        }
+
+        public override string ToLatexString()
+        {
+            throw new NotImplementedException();
         }
 
         #region Операторы унарные/бинарные

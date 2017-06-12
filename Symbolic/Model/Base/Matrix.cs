@@ -1,5 +1,6 @@
 ﻿using Antlr4.Runtime;
 using MathNet.Symbolics;
+using Symbolic.Model.Parser;
 using Symbolic.Model.Polynomial;
 using Symbolic.Parser;
 using System;

@@ -5,8 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using MathNet.Symbolics;
 using Expr = MathNet.Symbolics.Expression;
+using Symbolic.Model.Polynomial;
 
-namespace Symbolic.Model.Polynomial
+namespace Symbolic.Model.Parser
 {
     static class PolynomParser
     {

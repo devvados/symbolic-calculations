@@ -5,6 +5,26 @@ namespace Symbolic.Model.Template
 {
     public class Identity : Function
     {
+        string symbol;
+
+        //public Identity(string s)
+        //{
+        //    Symbol = s;
+        //}
+
+        public string Symbol
+        {
+            get
+            {
+                return symbol;
+            }
+
+            set
+            {
+                symbol = value;
+            }
+        }
+
         public override double Calc(double val)
         {
             return val;
@@ -21,7 +41,12 @@ namespace Symbolic.Model.Template
 
         public override string ToString()
         {
-            return "x";
+            return $"x";
+        }
+
+        public override string ToLatexString()
+        {
+            return $"x";
         }
     }
 }

@@ -1,13 +1,20 @@
 ﻿using Symbolic.Model.Base;
+using Symbolic.Model.Template.Trigonometric;
+using Symbolic.Model.Template.InverseTrig;
 using System;
+using Symbolic.Model.Template.Hyperbolic;
 
 namespace Symbolic.Model.Template
 {
     public static class Funcs
     {
+        public static Function func = new Identity();
+
         public static readonly Function Zero = new Constant(0);
 
         public static readonly Function Id = new Identity();
+
+        #region Элементарные функции
 
         /// <summary>
         /// f(x) = x ^ n
@@ -62,7 +69,9 @@ namespace Symbolic.Model.Template
             return new Sqrt(f);
         }
 
-        #region Trigonometric functions
+        #endregion
+
+        #region Тригонометрические функции
 
         /// <summary>
         /// Sin(x) or Sin(g(x)) 
@@ -91,20 +100,64 @@ namespace Symbolic.Model.Template
         /// <returns></returns>
         public static Function Tan(Function f = null)
         {
-            return Sin(f) / Cos(f);
+            return new Tangens(f);
         }
 
         /// <summary>
         /// Cth(x) or Ctg(g(x))
         /// </summary>
-        public static Function Ctg(Function f = null)
+        public static Function Cot(Function f = null)
         {
-            return Cos(f) / Sin(f);
+            return new Cotangens(f);
         }
 
         #endregion
 
-        #region Hyperbolic functions
+        #region Обратные тригонометрические функции
+
+        /// <summary>
+        /// Arcsin(x) or Arcsin(g(x)) 
+        /// </summary>
+        /// <param name="f"></param>
+        /// <returns></returns>
+        public static Function Asin(Function f = null)
+        {
+            return new Arcsinus(f);
+        }
+
+        /// <summary>
+        /// Arccos(x) or Arccos(g(x))
+        /// </summary>
+        /// <param name="f"></param>
+        /// <returns></returns>
+        public static Function Acos(Function f = null)
+        {
+            return new Arccosinus(f);
+        }
+
+        /// <summary>
+        /// Arctan(x) or Arctan(g(x))
+        /// </summary>
+        /// <param name="f"></param>
+        /// <returns></returns>
+        public static Function Atan(Function f = null)
+        {
+            return new Arctangens(f);
+        }
+
+        /// <summary>
+        /// Arccot(x) or Arccot(g(x))
+        /// </summary>
+        /// <param name="f"></param>
+        /// <returns></returns>
+        public static Function Acot(Function f = null)
+        {
+            return new Arccotangens(f);
+        }
+
+        #endregion
+
+        #region Гиперболические функции
 
         /// <summary>
         /// Sh(x) or Sh(g(x))
@@ -113,7 +166,7 @@ namespace Symbolic.Model.Template
         /// <returns></returns>
         public static Function Sh(Function f = null)
         {
-            return (Exp(f) - 1 / Exp(f)) / 2;
+            return new HypSinus(f);
         }
 
         /// <summary>
@@ -123,7 +176,7 @@ namespace Symbolic.Model.Template
         /// <returns></returns>
         public static Function Ch(Function f = null)
         {
-            return (Exp(f) + 1 / Exp(f)) / 2;
+            return new HypCosinus(f);
         }
 
         /// <summary>
@@ -133,7 +186,7 @@ namespace Symbolic.Model.Template
         /// <returns></returns>
         public static Function Tgh(Function f = null)
         {
-            return Sh(f) / Ch(f);
+            return new HypTangens(f);
         }
 
         /// <summary>
@@ -143,12 +196,12 @@ namespace Symbolic.Model.Template
         /// <returns></returns>
         public static Function Cth(Function f = null)
         {
-            return Sh(f) / Ch(f);
+            return new HypCotangens(f);
         }
 
         #endregion
 
-        #region Numeric Integration
+        #region Численное интегрирование
 
         /// <summary>
         /// Definite Integral

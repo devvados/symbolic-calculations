@@ -50,6 +50,10 @@
       <HintPath>..\packages\Antlr4.Runtime.4.5.3\lib\net45\Antlr4.Runtime.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="FirstFloor.ModernUI, Version=1.0.9.0, Culture=neutral, PublicKeyToken=bc9b0c37bf06c6a9, processorArchitecture=MSIL">
+      <HintPath>..\packages\ModernUI.WPF.1.0.9\lib\net45\FirstFloor.ModernUI.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="FParsec, Version=1.0.0.0, Culture=neutral, PublicKeyToken=40ccfc0a09edbb5d, processorArchitecture=MSIL">
       <HintPath>..\packages\FParsec.1.0.1\lib\net40-client\FParsec.dll</HintPath>
       <Private>True</Private>
@@ -120,6 +124,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\Template\Hyperbolic\HypCosinus.cs" />
+    <Compile Include="Model\Template\Hyperbolic\HypCotangens.cs" />
+    <Compile Include="Model\Template\Hyperbolic\HypSinus.cs" />
+    <Compile Include="Model\Template\Hyperbolic\HypTangens.cs" />
+    <Compile Include="Model\Template\InverseTrig\Arccosinus.cs" />
+    <Compile Include="Model\Template\InverseTrig\Arccotangens.cs" />
+    <Compile Include="Model\Template\InverseTrig\Arcsinus.cs" />
+    <Compile Include="Model\Template\InverseTrig\Arctangens.cs" />
+    <Compile Include="Model\Template\Trigonometric\Cotangens.cs" />
+    <Compile Include="Model\Template\Trigonometric\Tangens.cs" />
+    <Compile Include="UserControls\MatrixControl.xaml.cs">
+      <DependentUpon>MatrixControl.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -132,13 +149,48 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Pages\About\DerivativeHelpPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\About\IntegralHelpPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\About\MainHelpPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\About\MatrixHelpPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\DerivativePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\HelpPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\IntegralPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\MatrixPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\MatrixControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\Base\Constant.cs" />
     <Compile Include="Model\Base\Function.cs" />
     <Compile Include="Model\Base\Matrix.cs" />
     <Compile Include="Model\Base\Operator.cs" />
-    <Compile Include="Model\Base\Variable.cs" />
     <Compile Include="Model\Operation\Addition.cs" />
     <Compile Include="Model\Operation\Difference.cs" />
     <Compile Include="Model\Operation\Division.cs" />
@@ -147,23 +199,46 @@
     <Compile Include="Model\Polynomial\LexOrder.cs" />
     <Compile Include="Model\Polynomial\Monom.cs" />
     <Compile Include="Model\Polynomial\Polynom.cs" />
-    <Compile Include="Model\Polynomial\PolynomParser.cs" />
-    <Compile Include="Model\Polynomial\PolynomSystem.cs" />
+    <Compile Include="Model\Parser\PolynomParser.cs" />
     <Compile Include="Model\Polynomial\RationalFunction.cs" />
-    <Compile Include="Model\Template\Cosinus.cs" />
-    <Compile Include="Model\Template\Exponenta.cs" />
+    <Compile Include="Model\Template\Trigonometric\Cosinus.cs" />
+    <Compile Include="Model\Template\Elementary\Exponenta.cs" />
     <Compile Include="Model\Template\Funcs.cs" />
-    <Compile Include="Model\Template\Identity.cs" />
-    <Compile Include="Model\Template\Logarithm.cs" />
-    <Compile Include="Model\Template\Sinus.cs" />
-    <Compile Include="Model\Template\Sqrt.cs" />
-    <Compile Include="Parser\Calculator.g4.lexer.cs">
+    <Compile Include="Model\Template\Elementary\Identity.cs" />
+    <Compile Include="Model\Template\Elementary\Logarithm.cs" />
+    <Compile Include="Model\Template\Trigonometric\Sinus.cs" />
+    <Compile Include="Model\Template\Elementary\Sqrt.cs" />
+    <Compile Include="Pages\About\DerivativeHelpPage.xaml.cs">
+      <DependentUpon>DerivativeHelpPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\About\IntegralHelpPage.xaml.cs">
+      <DependentUpon>IntegralHelpPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\About\MainHelpPage.xaml.cs">
+      <DependentUpon>MainHelpPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\About\MatrixHelpPage.xaml.cs">
+      <DependentUpon>MatrixHelpPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\DerivativePage.xaml.cs">
+      <DependentUpon>DerivativePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\HelpPage.xaml.cs">
+      <DependentUpon>HelpPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\IntegralPage.xaml.cs">
+      <DependentUpon>IntegralPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\MatrixPage.xaml.cs">
+      <DependentUpon>MatrixPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Parser\Calculator.g4.lexer.cs">
       <DependentUpon>Calculator.g4</DependentUpon>
     </Compile>
-    <Compile Include="Parser\Calculator.g4.parser.cs">
+    <Compile Include="Model\Parser\Calculator.g4.parser.cs">
       <DependentUpon>Calculator.g4</DependentUpon>
     </Compile>
-    <Compile Include="Parser\CalculatorVisitor.cs" />
+    <Compile Include="Model\Parser\CalculatorVisitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -182,7 +257,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="packages.config" />
-    <Antlr4 Include="Parser\Calculator.g4">
+    <Antlr4 Include="Model\Parser\Calculator.g4">
       <Generator>MSBuild:Compile</Generator>
       <CustomToolNamespace>Symbolic.Parser</CustomToolNamespace>
     </Antlr4>

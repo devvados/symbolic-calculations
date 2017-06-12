@@ -1,4 +1,5 @@
 ﻿using Symbolic.Model.Base;
+using Symbolic.Model.Parser;
 using Symbolic.Model.Template;
 using System;
 using System.Collections.Generic;
@@ -135,6 +136,11 @@ namespace Symbolic.Model.Polynomial
             }
 
             return result;
+        }
+
+        public override string ToLatexString()
+        {
+            throw new NotImplementedException();
         }
     }
 }

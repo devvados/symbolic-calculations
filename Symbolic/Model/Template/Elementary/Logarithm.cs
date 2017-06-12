@@ -53,9 +53,17 @@ namespace Symbolic.Model.Template
         public override string ToString()
         {
             if (Math.Abs(_a - Math.E) <= 10e-6)
-                return (_innerF != null) ? $"ln({_innerF})" : "ln(x)";
+                return $"ln({_innerF})";
             else
-                return (_innerF != null) ? $"log[{_a}]({_innerF})" : "log[" + _a + "](x)";
+                return $"log[{_a}]({_innerF})";
+        }
+
+        public override string ToLatexString()
+        {
+            if (Math.Abs(_a - Math.E) <= 10e-6)
+                return $@"\ln ({_innerF.ToLatexString()})";
+            else
+                return $@"\log_{_a} ({_innerF.ToLatexString()})";
         }
 
         #endregion
