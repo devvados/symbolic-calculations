@@ -9,22 +9,22 @@
         xmlns:mui="http://firstfloorsoftware.com/ModernUI"
         xmlns:dataGrid2D="http://gu.se/DataGrid2D"
         mc:Ignorable="d"
-        Title="Символьные вычисления" IsTitleVisible="True"          
+        Title="Mathematical Assistant" IsTitleVisible="True"          
         Height="500" Width="800" MinHeight="400" MinWidth="500">
     <mui:ModernWindow.TitleLinks>
-        <mui:Link DisplayName="Помощь" Source="/Pages/HelpPage.xaml"/>
+        <mui:Link DisplayName="Help" Source="/Pages/HelpPage.xaml"/>
     </mui:ModernWindow.TitleLinks>
 
     <mui:ModernWindow.MenuLinkGroups>
-        <mui:LinkGroup DisplayName="Анализ">
+        <mui:LinkGroup DisplayName="Calculus">
             <mui:LinkGroup.Links>
-                <mui:Link DisplayName="Производные" Source="/Pages/DerivativePage.xaml"/>
-                <mui:Link DisplayName="Интегралы" Source="/Pages/IntegralPage.xaml"/>
+                <mui:Link DisplayName="Differential" Source="/Pages/DerivativePage.xaml"/>
+                <mui:Link DisplayName="Integral" Source="/Pages/IntegralPage.xaml"/>
             </mui:LinkGroup.Links>
         </mui:LinkGroup>
-        <mui:LinkGroup DisplayName="Алгебра">
+        <mui:LinkGroup DisplayName="Algebra">
             <mui:LinkGroup.Links>
-                <mui:Link DisplayName="Матрицы" Source="/Pages/MatrixPage.xaml"/>
+                <mui:Link DisplayName="Matrices" Source="/Pages/MatrixPage.xaml"/>
             </mui:LinkGroup.Links>
         </mui:LinkGroup>
     </mui:ModernWindow.MenuLinkGroups>

@@ -23,14 +23,26 @@ namespace Symbolic.Model.Base
             return Funcs.Zero;
         }
 
+        #region Print formula
+
+        /// <summary>
+        /// String view
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return _value.ToString("0.####", CultureInfo.InvariantCulture.NumberFormat);
         }
 
+        /// <summary>
+        /// Latex view
+        /// </summary>
+        /// <returns></returns>
         public override string ToLatexString()
         {
             return $"{_value}";
         }
+
+        #endregion
     }
 }

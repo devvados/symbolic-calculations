@@ -11,9 +11,6 @@ namespace Symbolic.Model.Polynomial
 {
     class RationalFunction : Function
     {
-        /// <summary>
-        /// Числитель и знаменатель
-        /// </summary>
         public Polynom Numerator, Denominator;
 
         public RationalFunction(Polynom num, Polynom denom)
@@ -26,22 +23,23 @@ namespace Symbolic.Model.Polynomial
         {
         }
 
-        #region Наследование от класса Function
+        #region Derivative, Calculation
 
         /// <summary>
-        /// Для галочки
+        /// Calculate function
         /// </summary>
-        /// <param name="val"></param>
-        /// <returns></returns>
+        /// <param name="val"> Argument value </param>
+        /// <returns> Function value </returns>
         public override double Calc(double val)
         {
             return 0;
         }
 
         /// <summary>
-        /// Для галочки
+        /// Derivative
         /// </summary>
-        /// <returns></returns>
+        /// <param name="varnum"> Variable </param>
+        /// <returns> Rational Function </returns>
         public override Function Derivative()
         {
             return null;
@@ -50,35 +48,15 @@ namespace Symbolic.Model.Polynomial
         #endregion
 
         /// <summary>
-        /// Подсчет значения функции в точке
+        /// Simplifying (division)
         /// </summary>
-        /// <param name="val"></param>
-        /// <returns></returns>
-        public override double Calc(params double[] val)
-        {
-            return 0;
-        }
-
-        /// <summary>
-        /// Производная по переменной (порядковый ее номер)
-        /// </summary>
-        /// <param name="varnum">Строго больше 0</param>
-        /// <returns></returns>
-        public override Function Derivative(int varnum)
-        {
-            return null;
-        }
-
-        /// <summary>
-        /// Упростить рациональную функцию
-        /// </summary>
-        /// <param name="divisionResult"></param>
+        /// <param name="divisionResult"> Polynom </param>
         /// <returns></returns>
         public Function Simplify(out List<Monom> divisionResult)
         {
             divisionResult = new List<Monom>();
 
-            //сравниваем степени числителя и знаменателя
+            //Compare numerator and denominator degrees
             if (Numerator.LT.CompareTo(Denominator.LT) >= 0) 
             {
                 Polynom reminder;
@@ -90,18 +68,9 @@ namespace Symbolic.Model.Polynomial
         }
 
         /// <summary>
-        /// Строковое представление рациональной функции
+        /// Rothstein and Trager Method
         /// </summary>
-        /// <returns></returns>
-        public override string ToString()
-        {
-            return $"({Numerator})/({Denominator})";
-        }
-
-        /// <summary>
-        /// Интегрирование методом Ротштейна и Трагера
-        /// </summary>
-        /// <returns></returns>
+        /// <returns> Function </returns>
         public Function Integrate()
         {
             var denomimatorDerivative = PolynomParser.Parse(Denominator.Derivative().ToString());
@@ -111,10 +80,10 @@ namespace Symbolic.Model.Polynomial
                     new Tuple<string, int>("c", 1)
                 }));
 
-            //Поиск результанта
+            //Resultant
             var res = Polynom.Resultant(Denominator, arg2);
 
-            //Поиск корней
+            //Roots
             var roots = Polynom.FindRoots(res);
             
             List <Tuple<Polynom, double>> GCDs = new List<Tuple<Polynom, double>>();
@@ -123,12 +92,14 @@ namespace Symbolic.Model.Polynomial
                 GCDs.Add(new Tuple<Polynom, double>(Polynom.GetGCD(Denominator, Numerator - (denomimatorDerivative * new Monom(root))), root));
             }
 
+            //Get terms
             List<Function> funcs = new List<Function>();
             foreach (var pair in GCDs)
             {
                 funcs.Add(new Constant(pair.Item2) * Funcs.Ln(pair.Item1));
             }
 
+            //Build function
             Function result = new Constant(0);
             foreach (var f in funcs)
             {
@@ -138,9 +109,26 @@ namespace Symbolic.Model.Polynomial
             return result;
         }
 
+        #region Print formula
+
+        /// <summary>
+        /// String view
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return $"({Numerator})/({Denominator})";
+        }
+
+        /// <summary>
+        /// Latex view
+        /// </summary>
+        /// <returns></returns>
         public override string ToLatexString()
         {
             throw new NotImplementedException();
         }
+
+        #endregion
     }
 }

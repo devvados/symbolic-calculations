@@ -21,6 +21,11 @@ namespace Symbolic.Model.Operation
             return new Multiplication(a, b);
         }
 
+        /// <summary>
+        /// Calculate function
+        /// </summary>
+        /// <param name="val"> Argument value </param>
+        /// <returns> Function value </returns>
         public override double Calc(double val)
         {
             var a = LeftFunc.Calc(val);
@@ -41,14 +46,26 @@ namespace Symbolic.Model.Operation
             return LeftFunc.Derivative() * RightFunc + LeftFunc * RightFunc.Derivative();
         }
 
+        #region Print formula
+
+        /// <summary>
+        /// String view
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
-            return LeftFunc + "* (" + RightFunc + ")";
+            return LeftFunc + "*(" + RightFunc + ")";
         }
 
+        /// <summary>
+        /// Latex view
+        /// </summary>
+        /// <returns></returns>
         public override string ToLatexString()
         {
-            return LeftFunc.ToLatexString() + @"\cdot \left(" + RightFunc.ToLatexString() + $"\right)";
+            return LeftFunc.ToLatexString() + @"\cdot " + RightFunc.ToLatexString();
         }
+
+        #endregion
     }
 }

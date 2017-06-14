@@ -23,13 +23,18 @@ namespace Symbolic.Model.Operation
             return new Division(a, b);
         }
 
+        /// <summary>
+        /// Calculate function
+        /// </summary>
+        /// <param name="val"> Argument value </param>
+        /// <returns> Function value </returns>
         public override double Calc(double val)
         {
             return LeftFunc.Calc(val) / RightFunc.Calc(val);
         }
 
         /// <summary>
-        /// Derivative RULE
+        /// Derivative rule
         /// </summary>
         /// <returns></returns>
         public override Function Derivative()
@@ -37,14 +42,26 @@ namespace Symbolic.Model.Operation
             return (LeftFunc.Derivative() * RightFunc - RightFunc.Derivative() * LeftFunc) / (RightFunc * RightFunc);
         }
 
+        #region Print formula
+
+        /// <summary>
+        /// String view
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return  LeftFunc + "/ (" + RightFunc + ")";
         }
 
+        /// <summary>
+        /// Latex view
+        /// </summary>
+        /// <returns></returns>
         public override string ToLatexString()
         {
-            return "frac{" + LeftFunc.ToLatexString() + "}{" + RightFunc.ToLatexString() + "}";
+            return @"\frac{" + LeftFunc.ToLatexString() + "}{" + RightFunc.ToLatexString() + "}";
         }
+
+        #endregion
     }
 }

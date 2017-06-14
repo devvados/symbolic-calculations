@@ -27,6 +27,11 @@ namespace Symbolic.Model.Template.Hyperbolic
             }
         }
 
+        /// <summary>
+        /// Calculate function
+        /// </summary>
+        /// <param name="val"> Argument value </param>
+        /// <returns> Function value </returns>
         public override double Calc(double val)
         {
             return Math.Cosh(val);
@@ -52,6 +57,10 @@ namespace Symbolic.Model.Template.Hyperbolic
             return $"0.5 * (exp({InnerF}) - exp({(-1)*InnerF}))";
         }
 
+        /// <summary>
+        /// Latex view
+        /// </summary>
+        /// <returns></returns>
         public override string ToLatexString()
         {
             return $@"0.5 \cdot (\exp ({InnerF.ToLatexString()}) - \exp ({((-1) * InnerF).ToLatexString()}))";

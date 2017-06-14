@@ -8,7 +8,7 @@
       xmlns:mui="http://firstfloorsoftware.com/ModernUI"
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="300"
-      Title="Производные">
+      Title="Differential calculus">
     <Grid>
         <StackPanel>
             <Grid>
@@ -16,8 +16,8 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="100"/>
                 </Grid.ColumnDefinitions>
-                <Label Content="Исходная функция" Grid.Column="0" Margin="15,10" FontSize="18"/>
-                <Label Content="Точка" Grid.Column="1" Margin="15,10" FontSize="18"/>
+                <Label Content="Source function" Grid.Column="0" Margin="15,10" FontSize="18"/>
+                <Label Content="Point" Grid.Column="1" Margin="15,10" FontSize="18"/>
             </Grid>
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -27,7 +27,7 @@
                 <TextBox x:Name="TbFirst" Grid.Column="0" Margin="15,10" FontSize="18" FontFamily="Consolas" VerticalContentAlignment="Center"/>
                 <TextBox x:Name="TbValue" Grid.Column="1" Margin="10,10" FontSize="18" VerticalContentAlignment="Center"/>
             </Grid>
-            <Button x:Name="BCalcDerivative" Content="Найти" Width="100" HorizontalAlignment="Left" Margin="15, 5" Click="BCalcDerivative_Click"/>
+            <Button x:Name="BCalcDerivative" Content="Search" Width="100" HorizontalAlignment="Left" Margin="15, 5" Click="BCalcDerivative_Click"/>
             <ProgressBar x:Name="PBDerivativeLoading" Margin="10" Height="20" Visibility="Hidden"/>
             <Slider x:Name="SFormulaSize" Margin="10" Grid.Column="1"
                         Value="{Binding ElementName=FormControl, Path=Scale}" Minimum="7" Maximum="42"

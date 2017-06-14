@@ -8,8 +8,14 @@ using Expr = MathNet.Symbolics.Expression;
 using PolyLib;
 using Symbolic.Model.Parser;
 
+/// <summary>
+/// Polynomial class
+/// </summary>
 namespace Symbolic.Model.Polynomial
 {
+    /// <summary>
+    /// For deep copy
+    /// </summary>
     static class Extensions
     {
         public static List<T> Clone<T>(this List<T> listToClone) where T : ICloneable
@@ -18,6 +24,9 @@ namespace Symbolic.Model.Polynomial
         }
     }
 
+    /// <summary>
+    /// Pair polynom-power
+    /// </summary>
     class Pair
     {
         int power;
@@ -42,7 +51,7 @@ namespace Symbolic.Model.Polynomial
             }
         }
 
-        internal Polynom P
+        public Polynom P
         {
             get
             {
@@ -59,11 +68,11 @@ namespace Symbolic.Model.Polynomial
     class Polynom : Base.Function, ICloneable
     {
         /// <summary>
-        /// Список мономов
+        /// Monoms list
         /// </summary>
         public List<Monom> Monoms;
 
-        #region Свойства
+        #region Properties
 
         public Monom LT => Monoms.Count < 1 ? null : Monoms.First();
 
@@ -103,7 +112,7 @@ namespace Symbolic.Model.Polynomial
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         public Polynom()
         {
@@ -117,13 +126,13 @@ namespace Symbolic.Model.Polynomial
 
         #endregion
 
-        #region Производная, интеграл, значение в точке
+        #region Derivative, Integral, Calculation
 
         /// <summary>
-        /// Производная по какой-то переменной
+        /// Derivative
         /// </summary>
-        /// <param name="varnum"> Порядок переменной </param>
-        /// <returns></returns>
+        /// <param name="varnum"> Variable </param>
+        /// <returns> Polynom </returns>
         public override Base.Function Derivative()
         {
             var f = Infix.ParseOrThrow(this.ToString());
@@ -134,10 +143,10 @@ namespace Symbolic.Model.Polynomial
         }
 
         /// <summary>
-        /// Вычисление значения в точке (x1, x2, ..., xn)
+        /// Calculate function
         /// </summary>
-        /// <param name="val"></param>
-        /// <returns></returns>
+        /// <param name="val"> Argument value </param>
+        /// <returns> Function value </returns>
         public override double Calc(params double[] val)
         {
             return 0;
@@ -146,9 +155,9 @@ namespace Symbolic.Model.Polynomial
         #endregion
 
         /// <summary>
-        /// Копия объекта "Полином"
+        /// Copy
         /// </summary>
-        /// <returns> Полная копия объекта </returns>
+        /// <returns> Object </returns>
         public object Clone()
         {
             return new Polynom
@@ -158,9 +167,9 @@ namespace Symbolic.Model.Polynomial
         }
 
         /// <summary>
-        /// Упрощение
+        /// Simplifying
         /// </summary>
-        /// <returns> Упрощенный полином </returns>
+        /// <returns> Polynom </returns>
         public Polynom SimplifyPolynom()
         {
             var nullCoefs = new List<int>();
@@ -199,11 +208,11 @@ namespace Symbolic.Model.Polynomial
         #region Наибольший общий делитель
 
         /// <summary>
-        /// Наибольший общий делитель 2-х полиномов
+        /// GCD (f1, f2)
         /// </summary>
-        /// <param name="f"> Полином </param>
-        /// <param name="g"> Полином </param>
-        /// <returns> НОД - полином </returns>
+        /// <param name="f"> Polynom </param>
+        /// <param name="g"> Polynom </param>
+        /// <returns> Polynom </returns>
         public static Polynom GetGCD(Polynom f, Polynom g)
         {
             var h = f.Degree > g.Degree ? (Polynom)f.Clone() : (Polynom)g.Clone();
@@ -230,10 +239,10 @@ namespace Symbolic.Model.Polynomial
         }
 
         /// <summary>
-        /// Наибольший общий делитель 3 и более полиномов
+        /// GCD (f1, f2, ..., fn)
         /// </summary>
-        /// <param name="polynoms"> Список полиномов </param>
-        /// <returns></returns>
+        /// <param name="polynoms"> Polynoms </param>
+        /// <returns> Polynom </returns>
         public static Polynom GetGCD(params Polynom[] polynoms)
         {
             var h = new Polynom();
@@ -249,12 +258,12 @@ namespace Symbolic.Model.Polynomial
         }
 
         /// <summary>
-        /// Деление полиномов с остатком
+        /// polynom division with reminder
         /// </summary>
-        /// <param name="f"> Делимое </param>
-        /// <param name="g"> Делитель </param>
-        /// <param name="q"> Частное </param>
-        /// <param name="r"> Остаток </param>
+        /// <param name="f"> Polynom </param>
+        /// <param name="g"> Polunom </param>
+        /// <param name="q"> Division </param>
+        /// <param name="r"> Reminder </param>
         public static void DividePolynoms(Polynom f, Polynom g, out List<Monom> q, out Polynom r)
         {
             q = new List<Monom>();
@@ -278,8 +287,10 @@ namespace Symbolic.Model.Polynomial
 
         #endregion
 
+        #region Print formula
+
         /// <summary>
-        /// Строковое представление полинома
+        /// String view
         /// </summary>
         /// <returns> Полином-строка </returns>
         public override string ToString()
@@ -309,10 +320,21 @@ namespace Symbolic.Model.Polynomial
         }
 
         /// <summary>
-        /// S-полином
+        /// Latex view
         /// </summary>
-        /// <param name="a"> Полином </param>
-        /// <param name="b"> Полином </param>
+        /// <returns></returns>
+        public override string ToLatexString()
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
+        /// <summary>
+        /// S-polynom
+        /// </summary>
+        /// <param name="a"> Polynom </param>
+        /// <param name="b"> Polynom </param>
         /// <returns></returns>
         public static Polynom S_polynom(Polynom a, Polynom b)
         {
@@ -321,6 +343,12 @@ namespace Symbolic.Model.Polynomial
             return sp;
         }
 
+        /// <summary>
+        /// Polynom Resultant
+        /// </summary>
+        /// <param name="a"> Polynom </param>
+        /// <param name="b"> Polynom </param>
+        /// <returns></returns>
         public static Polynom Resultant(Polynom a, Polynom b)
         {
             List<Pair> polyList = new List<Pair>();
@@ -376,6 +404,11 @@ namespace Symbolic.Model.Polynomial
             return det;   
         }
 
+        /// <summary>
+        /// Roots of a polynom
+        /// </summary>
+        /// <param name="a"> Polynom </param>
+        /// <returns></returns>
         public static List<double> FindRoots(Polynom a)
         {
             List<double> roots = new List<double>();
@@ -407,6 +440,11 @@ namespace Symbolic.Model.Polynomial
             return roots;
         }
 
+        /// <summary>
+        /// Fraction to decimal
+        /// </summary>
+        /// <param name="str"> Fraction string </param>
+        /// <returns></returns>
         public static double FromFraction(string str)
         {
             string[] str1 = str.Split('/');
@@ -414,6 +452,10 @@ namespace Symbolic.Model.Polynomial
             return d;
         }
 
+        /// <summary>
+        /// Fill polynom with missing powers
+        /// </summary>
+        /// <param name="row"> Polynoms </param>
         public static void FillPolynom(List<Polynom> row)
         {
             for (var k = 0; k < row.Count; k++)
@@ -423,6 +465,11 @@ namespace Symbolic.Model.Polynomial
             }
         }
 
+        /// <summary>
+        /// Group polynom coefficients
+        /// </summary>
+        /// <param name="a"> Polynom </param>
+        /// <returns></returns>
         public static List<Pair> GroupCoefficients(Polynom a)
         {
             List<Pair> polyList = new List<Pair>();
@@ -457,7 +504,12 @@ namespace Symbolic.Model.Polynomial
 
             return polyList;
         }
-
+        
+        /// <summary>
+        /// Get polynom max power
+        /// </summary>
+        /// <param name="a"> Polynom param>
+        /// <returns></returns>
         public static int FindMaxPower(Polynom a)
         {
             int max = 0;
@@ -486,12 +538,7 @@ namespace Symbolic.Model.Polynomial
             return pair.OrderByDescending(x => x.Power).ToList();
         }
 
-        public override string ToLatexString()
-        {
-            throw new NotImplementedException();
-        }
-
-        #region Операторы унарные/бинарные
+        #region Unary/binary operators
 
         public static Polynom operator +(Polynom a, Polynom b)
         {

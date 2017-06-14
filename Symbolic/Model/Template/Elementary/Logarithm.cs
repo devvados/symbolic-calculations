@@ -11,24 +11,38 @@ namespace Symbolic.Model.Template
         private readonly double _a;
         private readonly Function _innerF;
 
+        /// <summary>
+        /// Ln(x) or Log[a](x)
+        /// </summary>
+        /// <param name="a"></param>
         public Logarithm(double a = Math.E)
         {
             _a = a;
         }
 
+        /// <summary>
+        /// Ln(f(x)) or Log[a](f(x))
+        /// </summary>
+        /// <param name="f"></param>
+        /// <param name="a"></param>
         public Logarithm(Function f, double a = Math.E)
         {
             _a = a;
             _innerF = f;
         }
 
+        /// <summary>
+        /// Calculate function
+        /// </summary>
+        /// <param name="val"> Argument value </param>
+        /// <returns> Function value </returns>
         public override double Calc(double val)
         {
             return Math.Log(val, _a);
         }
 
         /// <summary>
-        /// Deirvative RULE
+        /// Deirvative rule
         /// </summary>
         /// <returns></returns>
         public override Function Derivative()

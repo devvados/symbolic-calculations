@@ -19,7 +19,17 @@ namespace Symbolic.Model.Template
         }
 
         /// <summary>
-        /// Производная функции
+        /// Calculate function
+        /// </summary>
+        /// <param name="val"> Argument value </param>
+        /// <returns> Function value </returns>
+        public override double Calc(double val)
+        {
+            return Math.Sqrt(val);
+        }
+
+        /// <summary>
+        /// Derivative rule
         /// </summary>
         /// <returns></returns>
         public override Function Derivative()
@@ -38,9 +48,13 @@ namespace Symbolic.Model.Template
             return $"sqrt({_innerF})";
         }
 
+        /// <summary>
+        /// Latex view
+        /// </summary>
+        /// <returns></returns>
         public override string ToLatexString()
         {
-            return $@"\sqrt ({_innerF.ToLatexString()})";;
+            return @"\sqrt {" + _innerF.ToLatexString() + "}";
         }
 
         #endregion  

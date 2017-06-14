@@ -49,8 +49,7 @@ namespace Symbolic.Model.Base
         {
             string mainQuery = "";
             StringBuilder subSub = new StringBuilder();
-
-            //subSub.Append("{");
+            
             foreach (var item in mat)
             {
                 subSub.Append("{");
@@ -68,8 +67,6 @@ namespace Symbolic.Model.Base
                 else 
                     subSub.Append("}");
             }
-            //subSub.Append("}");
-
             mainQuery = "determinant of {" + subSub + "}";
 
             return mainQuery;

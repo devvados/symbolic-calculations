@@ -7,13 +7,13 @@
       xmlns:local="clr-namespace:Symbolic.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="300"
-      Title="Помощь">
+      Title="Help">
     <mui:ModernTab x:Name="MTab" Margin="0,30,0,0">
         <mui:ModernTab.Links>
-            <mui:Link DisplayName="Главная" Source="/Pages/About/MainHelpPage.xaml" />
-            <mui:Link DisplayName="Производные" Source="/Pages/About/DerivativeHelpPage.xaml" />
-            <mui:Link DisplayName="Интегралы" Source="/Pages/About/IntegralHelpPage.xaml" />
-            <mui:Link DisplayName="Матрицы" Source="/Pages/About/MatrixHelpPage.xaml" />
+            <mui:Link DisplayName="Home" Source="/Pages/About/MainHelpPage.xaml" />
+            <mui:Link DisplayName="Differential" Source="/Pages/About/DerivativeHelpPage.xaml" />
+            <mui:Link DisplayName="Integral" Source="/Pages/About/IntegralHelpPage.xaml" />
+            <mui:Link DisplayName="Matrices" Source="/Pages/About/MatrixHelpPage.xaml" />
         </mui:ModernTab.Links>
     </mui:ModernTab>
 </Page>

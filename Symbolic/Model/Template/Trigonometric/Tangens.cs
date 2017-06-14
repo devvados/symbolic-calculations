@@ -27,6 +27,11 @@ namespace Symbolic.Model.Template.Trigonometric
             }
         }
 
+        /// <summary>
+        /// Calculate function
+        /// </summary>
+        /// <param name="val"> Argument value </param>
+        /// <returns> Function value </returns>
         public override double Calc(double val)
         {
             return MathNet.Numerics.Trig.Tan(val);
@@ -52,6 +57,10 @@ namespace Symbolic.Model.Template.Trigonometric
             return $"tan({InnerF})";
         }
 
+        /// <summary>
+        /// Latex view
+        /// </summary>
+        /// <returns></returns>
         public override string ToLatexString()
         {
             return $@"\tan ({InnerF.ToLatexString()})";

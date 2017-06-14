@@ -23,6 +23,11 @@ namespace Symbolic.Model.Template
             }
         }
 
+        /// <summary>
+        /// Calculate function
+        /// </summary>
+        /// <param name="val"> Argument value </param>
+        /// <returns> Function value </returns>
         public override double Calc(double val)
         {
             return Math.Sin(val);
@@ -48,6 +53,10 @@ namespace Symbolic.Model.Template
             return  $"sin({InnerF})";
         }
 
+        /// <summary>
+        /// Latex view
+        /// </summary>
+        /// <returns></returns>
         public override string ToLatexString()
         {
             return $@"\sin ({InnerF.ToLatexString()})";

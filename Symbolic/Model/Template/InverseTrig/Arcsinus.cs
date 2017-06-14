@@ -27,6 +27,11 @@ namespace Symbolic.Model.Template.InverseTrig
             }
         }
 
+        /// <summary>
+        /// Calculate function
+        /// </summary>
+        /// <param name="val"> Argument value </param>
+        /// <returns> Function value </returns>
         public override double Calc(double val)
         {
             return MathNet.Numerics.Trig.Asin(val);
@@ -52,6 +57,10 @@ namespace Symbolic.Model.Template.InverseTrig
             return $"arcsin({InnerF})";
         }
 
+        /// <summary>
+        /// Latex view
+        /// </summary>
+        /// <returns></returns>
         public override string ToLatexString()
         {
             return $@"\arcsin ({InnerF.ToLatexString()})";

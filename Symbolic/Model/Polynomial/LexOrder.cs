@@ -9,10 +9,10 @@ namespace Symbolic.Model.Polynomial
     class LexOrder
     {
         /// <summary>
-        /// Перестановка мономов в полиноме
+        /// Ordering monoms
         /// </summary>
-        /// <param name="poly"> Анализируемый полином </param>
-        /// <returns> Готовый полином </returns>
+        /// <param name="poly"> Polynom </param>
+        /// <returns> Ordered polynom </returns>
         public static Polynom CreateOrderedPolynom(Polynom poly)
         {
             var tempPolynom = poly;
@@ -34,7 +34,7 @@ namespace Symbolic.Model.Polynomial
             }
             monomRepeats = monomRepeats.OrderByDescending(pair => pair.Value).ToDictionary(pair => pair.Key, pair => pair.Value);
 
-            //Составим упорядоченный полином
+            //Build ordered polynom from list
             var orderedPolynom = new Polynom(monomRepeats.Keys.ToList());
 
             return orderedPolynom.SimplifyPolynom();

@@ -86,7 +86,8 @@ namespace Symbolic.Pages
             {
                 //Упрощаем производную 
                 var der = Infix.ParseOrUndefined(func.Derivative().ToString());
-                var derStr = Infix.Format(der);
+                var sim = Trigonometric.Simplify(der);
+                var derStr = Infix.Format(sim);
                 var derivative = (new CalculatorVisitor().Visit(
                                     new CalculatorParser(new CommonTokenStream(
                                         new CalculatorLexer(new AntlrInputStream(derStr)))).prog()));
@@ -119,7 +120,7 @@ namespace Symbolic.Pages
                     TBDerivFormula.Dispatcher.BeginInvoke(
                         new Action(() =>
                         {
-                            TBDerivFormula.Text = @"f' = " + texDer.ToLatexString();// + " = " + texDer.ToLatexString();
+                            TBDerivFormula.Text = @"f' = \left(" + f.ToLatexString() + @"\right)' = " + texDer.ToLatexString();
                         }
                     ));
                 }

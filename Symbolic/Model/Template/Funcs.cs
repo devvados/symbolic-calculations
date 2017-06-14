@@ -8,13 +8,11 @@ namespace Symbolic.Model.Template
 {
     public static class Funcs
     {
-        public static Function func = new Identity();
-
         public static readonly Function Zero = new Constant(0);
 
         public static readonly Function Id = new Identity();
 
-        #region Элементарные функции
+        #region Elementrty Functions
 
         /// <summary>
         /// f(x) = x ^ n
@@ -64,6 +62,11 @@ namespace Symbolic.Model.Template
             return new Logarithm(f, a);
         }
 
+        /// <summary>
+        /// Sqrt(x) or Sqrt(g(x))
+        /// </summary>
+        /// <param name="f"></param>
+        /// <returns></returns>
         public static Function Sq(Function f = null)
         {
             return new Sqrt(f);
@@ -71,7 +74,7 @@ namespace Symbolic.Model.Template
 
         #endregion
 
-        #region Тригонометрические функции
+        #region Trigonometric Functions
 
         /// <summary>
         /// Sin(x) or Sin(g(x)) 
@@ -113,7 +116,7 @@ namespace Symbolic.Model.Template
 
         #endregion
 
-        #region Обратные тригонометрические функции
+        #region Inverse Trigonometric Functions
 
         /// <summary>
         /// Arcsin(x) or Arcsin(g(x)) 
@@ -157,7 +160,7 @@ namespace Symbolic.Model.Template
 
         #endregion
 
-        #region Гиперболические функции
+        #region Hyperbolic Functions
 
         /// <summary>
         /// Sh(x) or Sh(g(x))
@@ -201,7 +204,7 @@ namespace Symbolic.Model.Template
 
         #endregion
 
-        #region Численное интегрирование
+        #region Numeric Integration
 
         /// <summary>
         /// Definite Integral

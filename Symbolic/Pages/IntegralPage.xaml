@@ -7,10 +7,10 @@
       xmlns:math="clr-namespace:WpfMath.Controls;assembly=WpfMath"
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="300"
-      Title="Интегралы">
+      Title="Integral calculus">
     <Grid>
         <StackPanel>
-            <Label x:Name="LFirst" Content="Исходная функция" Margin="10" FontSize="18" HorizontalAlignment="Left"/>
+            <Label x:Name="LFirst" Content="Source function" Margin="10" FontSize="18" HorizontalAlignment="Left"/>
             <Grid Margin="20,5,20,20">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="40"/>
@@ -26,7 +26,7 @@
                     <TextBox x:Name="TbDenominator" Text="(x-1)*(x-2)" Grid.Row="1" FontFamily="Consolas" FontSize="18" Height="30" VerticalContentAlignment="Center"/>
                 </Grid>
             </Grid>
-            <Button x:Name="BCalcPolynomIntegral" Content="Найти" Margin="60,10" Width="100" HorizontalAlignment="Left" Height="30" Click="BCalcPolynomIntegral_Click"/>
+            <Button x:Name="BCalcPolynomIntegral" Content="Search" Margin="60,10" Width="100" HorizontalAlignment="Left" Height="30" Click="BCalcPolynomIntegral_Click"/>
             <Slider Margin="10" 
                         Value="{Binding ElementName=FormControl1, Path=Scale}" Minimum="7" Maximum="42"
                         IsSnapToTickEnabled="True" TickPlacement="BottomRight" 

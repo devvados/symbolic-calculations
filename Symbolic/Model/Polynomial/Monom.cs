@@ -5,17 +5,14 @@ using System.Linq;
 namespace Symbolic.Model.Polynomial
 {
     /// <summary>
-    /// Класс Моном
+    /// Monomial class
     /// </summary>
     class Monom : IComparable<Monom>, ICloneable
     {
-        /// <summary>
-        /// коэффициент и список степеней
-        /// </summary>
         private double _coef;
         public List<Tuple<string, int>> Powers;
 
-        #region Свойства
+        #region Properties
 
         public double Coef
         {
@@ -52,7 +49,7 @@ namespace Symbolic.Model.Polynomial
 
         #endregion
 
-        #region Конструкторы
+        #region Constructors
 
         /// <summary>
         /// Пустой
@@ -86,9 +83,10 @@ namespace Symbolic.Model.Polynomial
 
         #endregion
 
-        ///<summary> 
-        ///Копия объекта "Моном" 
-        ///</summary>
+        /// <summary>
+        /// Copy
+        /// </summary>
+        /// <returns> Object </returns>
         public object Clone()
         {
             var newList = new List<Tuple<string, int>>();
@@ -105,10 +103,10 @@ namespace Symbolic.Model.Polynomial
         }
 
         ///<summary>
-        ///Сравнение мономов 
+        /// Comparing monoms 
         ///</summary>
-        ///<param name="b"> Аргумент - моном, с которым сравниваем </param>
-        ///<returns> 1- сравниваемый больше, 0 - равны, -1 - сравниваемый меньше </returns>
+        ///<param name="b"> Compare to monom </param>
+        ///<returns> 1 - first, 0 - equal, -1 - second </returns>
         public virtual int CompareTo(Monom b)
         {
             int compared = 0;
@@ -186,10 +184,10 @@ namespace Symbolic.Model.Polynomial
         }
 
         ///<summary> 
-        ///Дополнение монома переменными 0-й степени 
+        /// Fill monoms with missing variables 
         ///</summary>
-        ///<param name="compared">  Дополнение на столько же переменных, сколько у него </param>
-        ///<returns> Дополненный моном </returns>
+        ///<param name="compared"></param>
+        ///<returns> Monom </returns>
         public Monom CompleteMonom(Monom compared)
         {
             if (Powers.Count < compared.Powers.Count)
@@ -207,11 +205,30 @@ namespace Symbolic.Model.Polynomial
         }
 
         /// <summary>
-        /// Проверка мономов на делимость
+        /// Check monoms equality
         /// </summary>
-        /// <param name="a">Делимое</param>
-        /// <param name="b">Делитель</param>
-        /// <returns> да/нет </returns>
+        /// <param name="a"> Monom </param>
+        /// <param name="b"> Monom </param>
+        /// <returns> Equal/Not </returns>
+        public static bool AreEqual(Monom a, Monom b)
+        {
+            bool areEqual = false;
+            if (a.Powers.Count == b.Powers.Count)
+            {
+                if (a.Powers.SequenceEqual(b.Powers))
+                {
+                    areEqual = true;
+                }
+            }
+            return areEqual;
+        }
+
+        /// <summary>
+        /// Check monom division
+        /// </summary>
+        /// <param name="a"> Monom </param>
+        /// <param name="b"> Monom </param>
+        /// <returns> true/false </returns>
         public static bool CanDivide(Monom a, Monom b)
         {
             var canDivide = true;
@@ -233,6 +250,10 @@ namespace Symbolic.Model.Polynomial
             return canDivide;
         }
 
+        /// <summary>
+        /// Order variables by alphabet
+        /// </summary>
+        /// <returns></returns>
         public Monom OrderVariables()
         {
             Monom temp = this;
@@ -241,10 +262,12 @@ namespace Symbolic.Model.Polynomial
             return temp;
         }
 
+        #region Print formula
+
         /// <summary>
-        /// Строковое представление монома
+        /// String view
         /// </summary>
-        /// <returns> Строковое представление </returns>
+        /// <returns> String </returns>
         public override string ToString()
         {
             string toShow = "";
@@ -259,26 +282,9 @@ namespace Symbolic.Model.Polynomial
             return $"{toShow.Insert(0, Coef.ToString("0.###;-0.###;0"))}";
         }
 
-        /// <summary>
-        /// Проверка мономов на подобие
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <returns> подобны/нет </returns>
-        public static bool AreEqual(Monom a, Monom b)
-        {
-            bool areEqual = false;
-            if (a.Powers.Count == b.Powers.Count)
-            {
-                if (a.Powers.SequenceEqual(b.Powers))
-                {
-                    areEqual = true;
-                }
-            }
-            return areEqual;
-        }
+        #endregion
 
-        #region Операторы унарные/бинарные
+        #region Unary/binary operators
 
         public static Monom operator +(Monom a, Monom b)
         {
