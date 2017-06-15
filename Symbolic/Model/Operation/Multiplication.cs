@@ -54,7 +54,7 @@ namespace Symbolic.Model.Operation
         /// <returns></returns>
         public override string ToString()
         {
-            return LeftFunc + "*(" + RightFunc + ")";
+            return "(" + LeftFunc + ")*(" + RightFunc + ")";
         }
 
         /// <summary>

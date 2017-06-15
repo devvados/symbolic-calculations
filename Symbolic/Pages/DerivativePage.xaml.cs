@@ -23,7 +23,7 @@ namespace Symbolic.Pages
         }
 
         /// <summary>
-        /// Разбор математического выражения
+        /// Parsing math formula
         /// </summary>
         public Model.Base.Function ParseFormula()
         {
@@ -37,7 +37,7 @@ namespace Symbolic.Pages
         }
 
         /// <summary>
-        /// Состояние процесса вычисления
+        /// Calculating is in progress
         /// </summary>
         /// <param name="state"></param>
         public void ShowProcessState(bool state)
@@ -47,7 +47,7 @@ namespace Symbolic.Pages
         }
 
         /// <summary>
-        /// Обозначение прогресса операции
+        /// Indeterminate Progressbar
         /// </summary>
         /// <param name="isIndeterminate"></param>
         public void SetIndeterminate(bool isIndeterminate)
@@ -70,11 +70,11 @@ namespace Symbolic.Pages
         }
 
         /// <summary>
-        /// Упрощение математического выражения
+        /// Calculating derivative
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public Model.Base.Function SimplifyFunctionsByMathNET(object input)
+        public Model.Base.Function FindDerivative(object input)
         {
             Model.Base.Function func = input as Model.Base.Function;
 
@@ -84,10 +84,14 @@ namespace Symbolic.Pages
             }
             else
             {
-                //Упрощаем производную 
                 var der = Infix.ParseOrUndefined(func.Derivative().ToString());
-                var sim = Trigonometric.Simplify(der);
-                var derStr = Infix.Format(sim);
+
+                //Simplify function
+                //var sim = Trigonometric.Simplify(der);
+                //Contract function
+                //var gr = Trigonometric.Contract(der);
+
+                var derStr = Infix.Format(der);
                 var derivative = (new CalculatorVisitor().Visit(
                                     new CalculatorParser(new CommonTokenStream(
                                         new CalculatorLexer(new AntlrInputStream(derStr)))).prog()));
@@ -100,7 +104,7 @@ namespace Symbolic.Pages
         {
             f = ParseFormula();
 
-            //если вычисление уже выполняется на данный момент
+            //Calculating derivative
             if (isProcessRunning)
             {
                 MessageBox.Show("Производная уже считается!");
@@ -112,15 +116,15 @@ namespace Symbolic.Pages
                 {
                     ShowProcessState(true);
 
-                    //вычисление
-                    var texDer = SimplifyFunctionsByMathNET(f);
+                    var texDer = FindDerivative(f);
+                    var texString = Infix.ParseOrThrow(texDer.ToString());
 
                     ShowProcessState(false);
 
                     TBDerivFormula.Dispatcher.BeginInvoke(
                         new Action(() =>
                         {
-                            TBDerivFormula.Text = @"f' = \left(" + f.ToLatexString() + @"\right)' = " + texDer.ToLatexString();
+                            TBDerivFormula.Text = @"f' = \left(" + f.ToLatexString() + @"\right)' = " + LaTeX.Format(texString);
                         }
                     ));
                 }

@@ -21,14 +21,14 @@ namespace Symbolic.Pages
 
         private void BCalcPolynomIntegral_Click(object sender, RoutedEventArgs e)
         {
-            //Парсинг числителя и знаменателя
+            //Parse numerator and denominator
             var numerator = Infix.ParseOrThrow(TbNumerator.Text);
             var denominator = Infix.ParseOrThrow(TbDenominator.Text);
-            //Упрощение числителя и знаменателя по отдельности
+            //Simplifying numerator and denominator
             var simplifiedNumerator = Trigonometric.Simplify(numerator);
             var simplifiedDenominator = Trigonometric.Simplify(denominator);
 
-            //Строим  и упрощаем рациональную функцию
+            //Build Rational Function
             RationalFunction rf = new RationalFunction();
             rf.Numerator = PolynomParser.Parse(Infix.Format(simplifiedNumerator));
             rf.Denominator = PolynomParser.Parse(Infix.Format(simplifiedDenominator));
